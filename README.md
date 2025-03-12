@@ -33,6 +33,41 @@ const App = () => {
 };
 ```
 
+> [!TIP]
+> ```jsx
+> toast(msg: string, opts: ToastOptions);
+> type ToastOptions = Partial<Pick<Toast, 
+>     'id' | 
+>     'icon' | 
+>     'duration' | 
+>     'ariaProps' | 
+>     'className' | 
+>     'style' | 
+>     'position' | 
+>     'iconTheme' | 
+>     'removeDelay'>
+>>;
+> ```
+
+> [!TIP]
+> Also you can use prefabed toasts like:
+> ```jsx
+> declare const toast: {
+>    (message: Message, opts?: ToastOptions): string;
+>    error: ToastHandler;
+>    success: ToastHandler;
+>    loading: ToastHandler;
+>    custom: ToastHandler;
+>    dismiss(toastId?: string): void;
+>    remove(toastId?: string): void;
+>    promise<T>(promise: Promise<T> | (() => Promise<T>), msgs: {
+>        loading: Renderable;
+>        success?: ValueOrFunction<Renderable, T>;
+>        error?: ValueOrFunction<Renderable, any>;
+>    }, opts?: DefaultToastOptions): Promise<T>;
+>};
+> ```
+
 ## Using routing
 
 ### Getting started
