@@ -4,6 +4,7 @@ import { AuthPage } from '../../react-envelope/components/pages/AuthPage/AuthPag
 import { PrivateRoute } from "../../react-envelope/utils/PrivateRoute";
 import { DevExpPage } from "../../react-envelope/components/pages/DevExpPage/DevExpPage";
 import { UserSettingsPage } from "../../react-envelope/components/pages/UserSettingsPage/UserSettingsPage";
+import { Lab5 } from "../pages/Lab5/Lab5";
 
 export const Router = () => {
     return (
@@ -16,6 +17,9 @@ export const Router = () => {
                 </Route>
                 <Route path="/profile">
                     <Route path="settings" element={<UserSettingsPage/>}/>
+                </Route>
+                <Route path="/lab">
+                    <Route path="5" element={<Lab5/>}/>
                 </Route>
             </Routes>
         </BrowserRouter>
