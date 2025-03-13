@@ -1,9 +1,10 @@
+import { useState } from 'react';
 import HBoxPanel from '../../../react-envelope/components/layouts/HBoxPanel/HBoxPanel';
 import VBoxPanel from '../../../react-envelope/components/layouts/VBoxPanel/VBoxPanel';
 import HDivider from '../../../react-envelope/components/ui/dividers/HDivider/HDivider';
 import css from './BP.module.css';
 
-export const BP = ({ ref, className, mark, name, power, sata, pci }) => {
+export const BP = ({ ref, className, mark, name, power, sata, pci}) => {
     return (
         <HBoxPanel ref={ref} 
                    className={`${className} panel ${css.bp}`} 

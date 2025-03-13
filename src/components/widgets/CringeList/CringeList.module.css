@@ -1,0 +1,15 @@
+.cringe {
+    height: 600px;
+    border: 2px solid var(--accent-color);
+}
+
+.clear {
+    background: var(--error-color);
+    color: var(--inverse-font-color);
+}
+.clear:hover {
+    background: var(--error-hover-color);
+}
+.clear:active {
+    background: var(--error-active-color);
+}
