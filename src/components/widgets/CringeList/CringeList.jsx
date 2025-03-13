@@ -38,7 +38,8 @@ export const CringeList = ({ ref, className, children, onAddRequested, onDeleteR
                    ref={ref}
                    className={`${className} ${css.cringe} panel`}>
             <VBoxPanel className={`h-full y-scroll`}
-                       gap='10px'>
+                       gap='10px'
+                       halign='start'>
                 {options && options.map((c, i) => {
                     return (
                         <CringeListItem key={i} onDeleteRequested={() => handleOnDeleteSingle(i)}>
