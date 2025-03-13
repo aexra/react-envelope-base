@@ -13,3 +13,17 @@
 .clear:active {
     background: var(--error-active-color);
 }
+
+.cringeItem {
+    position: relative;
+    width: 340px;
+}
+.cringeItem.pending {
+
+}
+
+.awaitDeleteItemButton {
+    position: absolute;
+    right: 0;
+    top: 0;
+}
