@@ -9,6 +9,11 @@ import css from './CringeList.module.css';
 export const CringeListItem = ({ ref, className, children, onDeleteRequested}) => {
     const [isActive, setIsActive] = useState(true);
 
+    const handleDelete = () => {
+        setIsActive(true);
+        onDeleteRequested();
+    };
+
     return (
         <div ref={ref}
              className={`${className} ${css.cringeItem}`}>
@@ -16,13 +21,13 @@ export const CringeListItem = ({ ref, className, children, onDeleteRequested}) =
             <Bin className={`${css.awaitDeleteItemButton} icon-m textbutton pad5 r100`} onClick={() => setIsActive(false)}/>
             {!isActive && <VBoxPanel className={`${css.mask} r5`} valign='center'>
                 <ExButton className={`textbutton`} onClick={() => setIsActive(true)}>Восстановить</ExButton>
-                <ExButton className={`textbutton`} onClick={() => onDeleteRequested()}>Удалить</ExButton>
+                <ExButton className={`textbutton`} onClick={() => handleDelete()}>Удалить</ExButton>
             </VBoxPanel>}
         </div>
     );
 };
 
-export const CringeList = ({ ref, className, children, onAddRequested, onDeleteRequested, onClearRequested }) => {
+export const CringeList = ({ ref, className, children, onAddRequested, onDeleteRequested, onClearRequested, options }) => {
     const handleOnDeleteSingle = (i) => {
         if (onDeleteRequested) onDeleteRequested(i);
         console.log(`Delete `, i);
@@ -34,7 +39,7 @@ export const CringeList = ({ ref, className, children, onAddRequested, onDeleteR
                    className={`${className} ${css.cringe} panel`}>
             <VBoxPanel className={`h-full y-scroll`}
                        gap='10px'>
-                {React.Children.toArray(children).map((c, i) => {
+                {options && options.map((c, i) => {
                     return (
                         <CringeListItem key={i} onDeleteRequested={() => handleOnDeleteSingle(i)}>
                             {c}
@@ -44,8 +49,8 @@ export const CringeList = ({ ref, className, children, onAddRequested, onDeleteR
             </VBoxPanel>
             <VDivider className={`v-full`}/>
             <VBoxPanel gap='10px' valign='start'>
-                <ExButton className={`textbutton`} onClick={onAddRequested}><Add className='icon-m'/> Добавить</ExButton>
-                <ExButton className={`textbutton ${css.clear}`} gap='10px' onClick={onClearRequested}><Bin className='icon-s'/> Очистить</ExButton>
+                <ExButton className={`textbutton`} onClick={onAddRequested}><Add className='icon-m'/>Добавить</ExButton>
+                <ExButton className={`textbutton ${css.clear}`} gap='10px' onClick={onClearRequested}><Bin className='icon-s'/>Очистить</ExButton>
             </VBoxPanel>
         </HBoxPanel>
     );

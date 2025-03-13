@@ -30,7 +30,7 @@ export const Lab5 = () => {
     };
 
     const handleDelete = (i) => {
-        setbps(bps.filter(b => b != bps[i]));
+        setbps(bps.filter((b, id) => id !== i));
     };
 
     const handleClear = () => {
@@ -44,9 +44,8 @@ export const Lab5 = () => {
             <BP mark='aaa' name='bbb' power='228' sata='5' pci='1430'/>
             <CringeList onAddRequested={handleAdd}
                         onDeleteRequested={handleDelete}
-                        onClearRequested={handleClear}>
-                {bps.map((b, i) => <BP key={i} mark={b.mark} name={b.name} power={b.power} sata={b.sata} pci={b.pci}/>)}
-            </CringeList>
+                        onClearRequested={handleClear}
+                        options={bps.map((b, i) => <BP key={i} mark={b.mark} name={b.name} power={b.power} sata={b.sata} pci={b.pci}/>)}/>
             <TodoList/>
         </BasePage>
     );
