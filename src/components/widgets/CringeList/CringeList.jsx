@@ -13,7 +13,11 @@ export const CringeListItem = ({ ref, className, children, onDeleteRequested}) =
         <div ref={ref}
              className={`${className} ${css.cringeItem}`}>
             {children}
-            <Bin className={`${css.awaitDeleteItemButton} icon-m textbutton pad5 r100`} onClick={onDeleteRequested}/>
+            <Bin className={`${css.awaitDeleteItemButton} icon-m textbutton pad5 r100`} onClick={() => setIsActive(false)}/>
+            {!isActive && <VBoxPanel className={`${css.mask} r5`} valign='center'>
+                <ExButton className={`textbutton`} onClick={() => setIsActive(true)}>Восстановить</ExButton>
+                <ExButton className={`textbutton`} onClick={() => onDeleteRequested()}>Удалить</ExButton>
+            </VBoxPanel>}
         </div>
     );
 };
