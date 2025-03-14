@@ -5,6 +5,8 @@ import { BP } from '../../dummies/BP/BP';
 import { CringeList } from '../../widgets/CringeList/CringeList';
 import css from './Lab5.module.css';
 import TodoList from '../../widgets/TodoList/TodoList';
+import { HeaderTitle } from '../../../react-envelope/components/dummies/styleless/HeaderTitle';
+import { ExperimentOutlined } from '../../../react-envelope/components/dummies/Icons';
 
 export const Lab5 = () => {
     const [bps, setbps] = useState([]);
@@ -38,7 +40,7 @@ export const Lab5 = () => {
     };
     
     return (
-        <BasePage headerContent={<span>Лабораторная работа №5</span>}
+        <BasePage headerContent={<HeaderTitle text='Лабораторная работа №5' icon={<ExperimentOutlined/>}/>}
                   navSidebar={<DSTUNavSidebar/>}
                   bodyClassName={`h-full`}>
             <BP mark='aaa' name='bbb' power='228' sata='5' pci='1430'/>
