@@ -12,12 +12,15 @@ export const Router = () => {
             <Routes>
                 <Route path="/" element={<SamplesPage/>}/>
                 <Route path="/login" element={<AuthPage/>}/>
-                <Route element={<PrivateRoute/>}>
+
+                <Route element={<PrivateRoute roles='dev'/>}>
                     <Route path="/_lab" element={<DevExpPage/>}/>
                 </Route>
-                <Route path="/profile">
+
+                <Route path="/profile" element={<PrivateRoute/>}>
                     <Route path="settings" element={<UserSettingsPage/>}/>
                 </Route>
+
                 <Route path="/lab">
                     <Route path="5" element={<Lab5/>}/>
                 </Route>
