@@ -4,12 +4,12 @@
 
 ##### For any other project using [react-envelope](https://github.com/aexra/react-envelope)
 ```bash
-npm i react-router-dom axios react-hot-toast
+npm i react-router-dom axios react-hot-toast react-markdown
 ```
 
 ##### For this repo
 ```bash
-npm i
+npm i --force
 ```
 
 ## Using toasts
