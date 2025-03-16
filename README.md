@@ -4,7 +4,7 @@
 
 ##### For any other project using [react-envelope](https://github.com/aexra/react-envelope)
 ```bash
-npm i react-router-dom axios react-hot-toast react-markdown
+npm i react-router-dom axios react-hot-toast react-markdown parse-numeric-range remark-gfm remark-math rehype-raw rehype-katex rehype-highlight
 ```
 
 ##### For this repo
