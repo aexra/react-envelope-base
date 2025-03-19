@@ -7,6 +7,7 @@ import css from './Lab5.module.css';
 import TodoList from '../../widgets/TodoList/TodoList';
 import { HeaderTitle } from '../../../react-envelope/components/dummies/styleless/HeaderTitle';
 import { ExperimentOutlined } from '../../../react-envelope/components/dummies/Icons';
+import { Callout } from '../../../react-envelope/components/dummies/Callout/Callout';
 
 export const Lab5 = () => {
     const [bps, setbps] = useState([]);
@@ -49,6 +50,7 @@ export const Lab5 = () => {
                         onClearRequested={handleClear}
                         options={bps.map((b, i) => <BP key={i} mark={b.mark} name={b.name} power={b.power} sata={b.sata} pci={b.pci}/>)}/>
             <TodoList/>
+            <Callout type='important'>Памагите</Callout>
         </BasePage>
     );
 };
