@@ -51,7 +51,7 @@ export const CringeList = ({ ref, className, children, onAddRequested, onDeleteR
             <VDivider className={`v-full`}/>
             <VBoxPanel gap='10px' valign='start'>
                 <ExButton className={`textbutton`} onClick={onAddRequested}><Add className='icon-m'/>Добавить</ExButton>
-                <ExButton className={`textbutton ${css.clear}`} gap='10px' onClick={onClearRequested}><Bin className='icon-s'/>Очистить</ExButton>
+                <ExButton type={'error'} gap='10px' onClick={onClearRequested}><Bin className='icon-s'/>Очистить</ExButton>
             </VBoxPanel>
         </HBoxPanel>
     );

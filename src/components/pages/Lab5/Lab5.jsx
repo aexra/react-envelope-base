@@ -7,6 +7,8 @@ import css from './Lab5.module.css';
 import TodoList from '../../widgets/TodoList/TodoList';
 import { HeaderTitle } from '../../../react-envelope/components/dummies/styleless/HeaderTitle';
 import { ExperimentOutlined } from '../../../react-envelope/components/dummies/Icons';
+import { NavSidebarButton } from '../../../react-envelope/components/ui/buttons/NavSidebarButton/NavSidebarButton';
+import DSTUFooter from '../../../react-envelope/components/widgets/DSTUFooter/DSTUFooter';
 
 export const Lab5 = () => {
     const [bps, setbps] = useState([]);
@@ -41,6 +43,7 @@ export const Lab5 = () => {
     
     return (
         <BasePage headerContent={<HeaderTitle text='Лабораторная работа №5' icon={<ExperimentOutlined/>}/>}
+                  footerContent={<DSTUFooter/>}
                   navSidebar={<DSTUNavSidebar/>}
                   bodyClassName={`h-full`}>
             <BP mark='aaa' name='bbb' power='228' sata='5' pci='1430'/>
