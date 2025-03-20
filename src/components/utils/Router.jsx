@@ -15,14 +15,18 @@ export const Router = () => {
     useEffect(() => {
         add({
             name: 'ENVELOPE',
-            path: '/',
-            icon: <Pizza/>
+            to: '/',
+            props: {
+                icon: <Pizza/>
+            }
         }, {
             name: 'Экспериментальная',
-            path: '/_lab',
-            icon: <Code/>,
+            to: '/_lab',
             permissions: 'dev',
-            class: 'debug'
+            props: {
+                icon: <Code/>,
+                className: 'debug'
+            }
         });
     }, [])
 
