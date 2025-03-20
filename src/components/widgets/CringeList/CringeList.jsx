@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Add, Bin } from '../../../react-envelope/components/dummies/Icons';
+import { Add, Bin, Edit } from '../../../react-envelope/components/dummies/Icons';
 import HBoxPanel from '../../../react-envelope/components/layouts/HBoxPanel/HBoxPanel';
 import VBoxPanel from '../../../react-envelope/components/layouts/VBoxPanel/VBoxPanel';
 import ExButton from '../../../react-envelope/components/ui/buttons/ExButton/ExButton';
@@ -18,7 +18,10 @@ export const CringeListItem = ({ ref, className, children, onDeleteRequested}) =
         <div ref={ref}
              className={`${className} ${css.cringeItem}`}>
             {children}
-            <Bin className={`${css.awaitDeleteItemButton} icon-m textbutton pad5 r100`} onClick={() => setIsActive(false)}/>
+            <HBoxPanel className={`${css.awaitDeleteItemButton}`}>
+                <Edit className={`icon-m textbutton pad5 r100`} onClick={() => setIsActive(false)}/>
+                <Bin className={`icon-m textbutton pad5 r100`} onClick={() => setIsActive(false)}/>
+            </HBoxPanel>
             {!isActive && <VBoxPanel className={`${css.mask} r5`} valign='center'>
                 <ExButton className={`textbutton`} onClick={() => setIsActive(true)}>Восстановить</ExButton>
                 <ExButton className={`textbutton`} onClick={() => handleDelete()}>Удалить</ExButton>
