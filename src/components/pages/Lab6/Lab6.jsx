@@ -14,23 +14,19 @@ export const Lab6 = () => {
     const [bps, setbps] = useState([]);
 
     const [isEditModalEnabled, setIsEditModalEnabled] = useState(false);
+    const [isCreateModalEnabled, setIsCreateModalEnabled] = useState(false);
     const [editContext, setEditContext] = useState(null);
 
-    const [mark, setMark] = useState(null);
-    const [name, setName] = useState(null);
-    const [power, setPower] = useState(null);
-    const [sata, setSata] = useState(null);
-    const [pci, setPci] = useState(null);
+    const [mark, setMark] = useState('');
+    const [name, setName] = useState('');
+    const [power, setPower] = useState('');
+    const [sata, setSata] = useState('');
+    const [pci, setPci] = useState('');
 
     const [editing, setEditing] = useState(null);
-        
-    const marks = ['aaa', 'bbb', 'ccc', 'ddd', 'eee', 'fff', 'ggg', 'hhh', 'iii', 'jjj'];
-    const names = ['Block1', 'Block2', 'Block3', 'Block4', 'Block5', 'Block6', 'Block7', 'Block8', 'Block9', 'Block10'];
-    const powers = ['228', '300', '400', '500', '600', '700', '800', '900', '1000', '1200'];
-    const satas = ['5', '6', '7', '8', '9', '10', '11', '12', '13', '14'];
-    const pcis = ['1430', '1500', '1600', '1700', '1800', '1900', '2000', '2100', '2200', '2300'];
 
     useEffect(() => {
+        if (isCreateModalEnabled) return;
         if (mark && name && power && sata && pci) {
             setEditContext([
                 {
@@ -70,23 +66,28 @@ export const Lab6 = () => {
     useEffect(() => {
         if (editContext) {
             setIsEditModalEnabled(true);
-        } else {
-
         }
     }, [editContext]);
 
-    function getRandomElement(array) {
-        return array[Math.floor(Math.random() * array.length)];
-    }
-
     const handleAdd = () => {
+        setIsCreateModalEnabled(true);
+    };
+
+    const handleCreate = (event) => {
+        event.preventDefault();
         setbps([...bps, {
-            mark: getRandomElement(marks),
-            name: getRandomElement(names),
-            power: getRandomElement(powers),
-            sata: getRandomElement(satas),
-            pci: getRandomElement(pcis)
+            mark: mark,
+            name: name,
+            power: power,
+            sata: sata,
+            pci: pci
         }]);
+        setIsCreateModalEnabled(false);
+        setMark('');
+        setName('');
+        setPower('');
+        setSata('');
+        setPci('');
     };
 
     const handleEdit = (i) => {
@@ -131,11 +132,11 @@ export const Lab6 = () => {
             setEditContext(null);
             setEditing(null);
 
-            setMark(null);
-            setName(null);
-            setPower(null);
-            setSata(null);
-            setPci(null);
+            setMark('');
+            setName('');
+            setPower('');
+            setSata('');
+            setPci('');
         }
     };
     
@@ -157,6 +158,36 @@ export const Lab6 = () => {
                        onCloseRequested={() => setIsEditModalEnabled(false)}
                        height='450px'
                        onPrimaryClick={handleUpdate}/>
+            {isCreateModalEnabled && (
+                <div className="modal">
+                    <div className="modal-content">
+                        <span className="close" onClick={() => setIsCreateModalEnabled(false)}>&times;</span>
+                        <form onSubmit={handleCreate}>
+                            <label>
+                                Марка:
+                                <input type="text" value={mark} onChange={(e) => setMark(e.target.value)} required />
+                            </label>
+                            <label>
+                                Название:
+                                <input type="text" value={name} onChange={(e) => setName(e.target.value)} required />
+                            </label>
+                            <label>
+                                Мощность:
+                                <input type="text" value={power} onChange={(e) => setPower(e.target.value)} required />
+                            </label>
+                            <label>
+                                SATA:
+                                <input type="text" value={sata} onChange={(e) => setSata(e.target.value)} required />
+                            </label>
+                            <label>
+                                PCI-E:
+                                <input type="text" value={pci} onChange={(e) => setPci(e.target.value)} required />
+                            </label>
+                            <button type="submit">Создать</button>
+                        </form>
+                    </div>
+                </div>
+            )}
         </BasePage>
     );
 };
