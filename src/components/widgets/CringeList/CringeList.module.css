@@ -1,0 +1,38 @@
+.cringe {
+    height: 600px;
+    border: 2px solid var(--accent-color);
+}
+
+.clear {
+    background: var(--error-color);
+    color: var(--inverse-font-color);
+}
+.clear:hover {
+    background: var(--error-hover-color);
+}
+.clear:active {
+    background: var(--error-active-color);
+}
+
+.cringeItem {
+    position: relative;
+}
+.cringeItem.pending {
+
+}
+
+.awaitDeleteItemButton {
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+
+.mask {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+
+    background: rgba(0, 0, 0, 0.9);
+}
