@@ -8,6 +8,7 @@ import DSTUFooter from '../../../react-envelope/components/widgets/DSTUFooter/DS
 import { HeaderTitle } from '../../../react-envelope/components/dummies/styleless/HeaderTitle';
 import { ExperimentOutlined } from '../../../react-envelope/components/dummies/Icons';
 import { EditModal } from '../../../react-envelope/components/widgets/modals/EditModal/EditModal';
+import toast from 'react-hot-toast';
 
 export const Lab6 = () => {
     const [bps, setbps] = useState([]);
@@ -100,6 +101,17 @@ export const Lab6 = () => {
         setPci(bp.pci);
     };
 
+    const handleSave = () => {
+        localStorage.setItem("bps", JSON.stringify(bps));
+        toast.success('Сохранено!');
+    };
+
+    const handleLoad = () => {
+        const b = localStorage.getItem("bps");
+        if (b) setbps(JSON.parse(b));
+        else setbps([]);
+    };
+
     const handleDelete = (i) => {
         setbps(bps.filter((b, id) => id !== i));
     };
@@ -136,6 +148,8 @@ export const Lab6 = () => {
                         onEditRequested={handleEdit}
                         onDeleteRequested={handleDelete}
                         onClearRequested={handleClear}
+                        onLoadRequested={handleLoad}
+                        onSaveRequested={handleSave}
                         options={bps.map((b, i) => <BP key={i} mark={b.mark} name={b.name} power={b.power} sata={b.sata} pci={b.pci}/>)}/>
             <EditModal title={'Изменить блок питания'}
                        isEnabled={isEditModalEnabled}

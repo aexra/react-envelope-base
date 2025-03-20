@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Add, Bin, Edit } from '../../../react-envelope/components/dummies/Icons';
+import { Add, Bin, Edit, Reload, Save } from '../../../react-envelope/components/dummies/Icons';
 import HBoxPanel from '../../../react-envelope/components/layouts/HBoxPanel/HBoxPanel';
 import VBoxPanel from '../../../react-envelope/components/layouts/VBoxPanel/VBoxPanel';
 import ExButton from '../../../react-envelope/components/ui/buttons/ExButton/ExButton';
@@ -37,7 +37,9 @@ export const CringeList = ({
     onDeleteRequested, 
     onEditRequested,
     onClearRequested, 
-    options
+    options,
+    onLoadRequested,
+    onSaveRequested
 }) => {
     return (
         <HBoxPanel gap='0px'
@@ -59,7 +61,9 @@ export const CringeList = ({
             <VDivider className={`v-full`}/>
             <VBoxPanel gap='10px' valign='start'>
                 <ExButton className={`textbutton`} onClick={onAddRequested}><Add className='icon-m'/>Добавить</ExButton>
-                <ExButton type={'error'} gap='10px' onClick={onClearRequested}><Bin className='icon-s'/>Очистить</ExButton>
+                <ExButton className={'textbutton'} onClick={onSaveRequested}><Save className='icon-m'/>Сохранить</ExButton>
+                <ExButton className={'textbutton'} onClick={onLoadRequested}><Reload className='icon-m'/>Загрузить</ExButton>
+                <ExButton type={'error'} onClick={onClearRequested}><Bin className='icon-m'/>Очистить</ExButton>
             </VBoxPanel>
         </HBoxPanel>
     );
