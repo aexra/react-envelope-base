@@ -5,6 +5,7 @@ import { PrivateRoute } from "../../react-envelope/utils/PrivateRoute";
 import { DevExpPage } from "../../react-envelope/components/pages/DevExpPage/DevExpPage";
 import { UserSettingsPage } from "../../react-envelope/components/pages/UserSettingsPage/UserSettingsPage";
 import { Lab5 } from "../pages/Lab5/Lab5";
+import { Lab6 } from "../pages/Lab6/Lab6";
 
 export const Router = () => {
     return (
@@ -23,6 +24,7 @@ export const Router = () => {
 
                 <Route path="/lab">
                     <Route path="5" element={<Lab5/>}/>
+                    <Route path="6" element={<Lab6/>}/>
                 </Route>
             </Routes>
         </BrowserRouter>
