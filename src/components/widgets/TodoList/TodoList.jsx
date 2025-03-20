@@ -77,13 +77,9 @@ const TodoList = () => {
               draggable
               onDragStart={(e) => handleDragStart(e, task.id, category.id)}
               style={{
-                padding: '8px',
-                margin: '8px 0',
-                backgroundColor: '#f4f4f4',
-                border: '1px solid #ddd',
-                borderRadius: '4px',
                 cursor: 'grab',
               }}
+              className='textbutton pad5 padh10 r5'
             >
               {task.content} (Приоритет: {task.priority})
             </div>
