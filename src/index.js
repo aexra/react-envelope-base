@@ -8,6 +8,7 @@ import reportWebVitals from './reportWebVitals';
 import { AuthProvider } from './react-envelope/contexts/AuthContext';
 import { AccountsProvider } from './react-envelope/contexts/AccountsContext';
 import { ThemeProvider } from './react-envelope/contexts/ThemeContext';
+import { NavigationProvider } from './react-envelope/contexts/NavigationContext';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -15,7 +16,9 @@ root.render(
     <ThemeProvider>
       <AuthProvider>
         <AccountsProvider>
-          <App/>
+          <NavigationProvider>
+            <App/>
+          </NavigationProvider>
         </AccountsProvider>
       </AuthProvider>
     </ThemeProvider>

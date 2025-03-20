@@ -4,8 +4,28 @@ import { AuthPage } from '../../react-envelope/components/pages/AuthPage/AuthPag
 import { PrivateRoute } from "../../react-envelope/utils/PrivateRoute";
 import { DevExpPage } from "../../react-envelope/components/pages/DevExpPage/DevExpPage";
 import { UserSettingsPage } from "../../react-envelope/components/pages/UserSettingsPage/UserSettingsPage";
+import { useEffect } from "react";
+import { useNavigation } from "../../react-envelope/hooks/useNavigation";
+import { Code, Pizza } from "../../react-envelope/components/dummies/Icons";
+import Styles from '../../App.css';
 
 export const Router = () => {
+    const { routes, add } = useNavigation();
+
+    useEffect(() => {
+        add({
+            name: 'ENVELOPE',
+            path: '/',
+            icon: <Pizza/>
+        }, {
+            name: 'Экспериментальная',
+            path: '/_lab',
+            icon: <Code/>,
+            permissions: 'dev',
+            class: 'debug'
+        });
+    }, [])
+
     return (
         <BrowserRouter>
             <Routes>
