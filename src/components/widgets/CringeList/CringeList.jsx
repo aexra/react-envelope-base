@@ -6,7 +6,7 @@ import ExButton from '../../../react-envelope/components/ui/buttons/ExButton/ExB
 import VDivider from '../../../react-envelope/components/ui/dividers/VDivider/VDivider';
 import css from './CringeList.module.css';
 
-export const CringeListItem = ({ ref, className, children, onDeleteRequested}) => {
+export const CringeListItem = ({ ref, className, children, onDeleteRequested, onEditRequested}) => {
     const [isActive, setIsActive] = useState(true);
 
     const handleDelete = () => {
@@ -19,7 +19,7 @@ export const CringeListItem = ({ ref, className, children, onDeleteRequested}) =
              className={`${className} ${css.cringeItem}`}>
             {children}
             <HBoxPanel className={`${css.awaitDeleteItemButton}`}>
-                <Edit className={`icon-m textbutton pad5 r100`} onClick={() => setIsActive(false)}/>
+                <Edit className={`icon-m textbutton pad5 r100`} onClick={onEditRequested}/>
                 <Bin className={`icon-m textbutton pad5 r100`} onClick={() => setIsActive(false)}/>
             </HBoxPanel>
             {!isActive && <VBoxPanel className={`${css.mask} r5`} valign='center'>
@@ -30,12 +30,15 @@ export const CringeListItem = ({ ref, className, children, onDeleteRequested}) =
     );
 };
 
-export const CringeList = ({ ref, className, children, onAddRequested, onDeleteRequested, onClearRequested, options }) => {
-    const handleOnDeleteSingle = (i) => {
-        if (onDeleteRequested) onDeleteRequested(i);
-        console.log(`Delete `, i);
-    };
-
+export const CringeList = ({
+    ref, 
+    className, 
+    onAddRequested, 
+    onDeleteRequested, 
+    onEditRequested,
+    onClearRequested, 
+    options
+}) => {
     return (
         <HBoxPanel gap='0px'
                    ref={ref}
@@ -45,7 +48,9 @@ export const CringeList = ({ ref, className, children, onAddRequested, onDeleteR
                        halign='start'>
                 {options && options.map((c, i) => {
                     return (
-                        <CringeListItem key={i} onDeleteRequested={() => handleOnDeleteSingle(i)}>
+                        <CringeListItem key={i} 
+                                        onDeleteRequested={() => onDeleteRequested(i)}
+                                        onEditRequested={() => onEditRequested(i)}>
                             {c}
                         </CringeListItem>
                     );
