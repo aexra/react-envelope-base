@@ -6,8 +6,9 @@ import { DevExpPage } from "../../react-envelope/components/pages/DevExpPage/Dev
 import { UserSettingsPage } from "../../react-envelope/components/pages/UserSettingsPage/UserSettingsPage";
 import { useEffect } from "react";
 import { useNavigation } from "../../react-envelope/hooks/useNavigation";
-import { Code, Pizza } from "../../react-envelope/components/dummies/Icons";
+import { Code, ExperimentOutlined, Pizza } from "../../react-envelope/components/dummies/Icons";
 import Styles from '../../App.css';
+import { Lab3 } from "../pages/Lab3/Lab3";
 
 export const Router = () => {
     const { routes, add } = useNavigation();
@@ -27,6 +28,13 @@ export const Router = () => {
                 icon: <Code/>,
                 className: 'debug'
             }
+        }, {
+            name: 'Лабораторная работа №3',
+            to: '/lab/3',
+            requireAuth: true,
+            props: {
+                icon: <ExperimentOutlined/>
+            }
         });
     }, [])
 
@@ -38,6 +46,10 @@ export const Router = () => {
 
                 <Route element={<PrivateRoute roles='dev'/>}>
                     <Route path="/_lab" element={<DevExpPage/>}/>
+                </Route>
+
+                <Route path="/lab" element={<PrivateRoute/>}>
+                    <Route path="3" element={<Lab3/>}/>
                 </Route>
 
                 <Route path="/profile" element={<PrivateRoute/>}>
