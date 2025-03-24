@@ -1,9 +1,11 @@
 import { useContext } from "react";
 import { ImageAuthContext } from "../contexts/ImageAuthContext";
 import { ImageUser } from "../interfaces/ImageUser";
+import { useObjectLocalStorage } from "../react-envelope/hooks/useObjectLocalStorage";
 
 export const useImageAuth = () => {
     const { user, users, setUser, setUsers } = useContext(ImageAuthContext);
+    const { setItem } = useObjectLocalStorage();
 
     const login = (name: string, password: string): ImageUser | null => {
         if (users) {
@@ -11,7 +13,10 @@ export const useImageAuth = () => {
             if (acc) {
                 if (user) setUsers([...users, user]);
                 setUser(acc);
-                setUsers(users.filter(u => u != acc));
+                const nu = users.filter(u => u != acc);
+                setUsers(nu);
+                setItem('imgUser', acc);
+                setItem('imgUsers', nu);
                 return acc;
             }
         }
@@ -19,7 +24,14 @@ export const useImageAuth = () => {
     };
 
     const logout = () => {
-        if (users && user) setUsers([...users, user]);
+        if (users && user) {
+            const nu = [...users, user];
+            setUsers(nu);
+            setUser(null);
+
+            setItem('imgUser', null);
+            setItem('imgUsers', nu);
+        }
     };
 
     const register = (name: string, password: string): ImageUser | null => {
@@ -27,11 +39,15 @@ export const useImageAuth = () => {
             if (users.find(u => u.name === name)) {
                 return null;
             } else {
-                setUsers([...users, {name, password}]);
+                const nu = [...users, {name, password}];
+                setUsers(nu);
+                setItem('imgUsers', nu);
                 return {name, password};
             }
         } else {
-            setUsers([{name, password}]);
+            const nu = [{name, password}];
+            setUsers(nu);
+            setItem('imgUsers', nu);
             return {name, password};
         }
     };

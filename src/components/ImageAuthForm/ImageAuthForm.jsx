@@ -11,7 +11,7 @@ export const ImageAuthForm = ({ users }) => {
     
     return (
         <VBoxPanel gap={'20px'}>
-            {isLoginForm ? <ImageLoginForm/> : <ImageRegisterForm/>}
+            {isLoginForm ? <ImageLoginForm/> : <ImageRegisterForm onRegister={() => setForm(true)}/>}
             {isLoginForm ? <ExButton className={'linkbutton'} onClick={() => setForm(false)}>Регистрация</ExButton> : 
                            <ExButton className={'linkbutton'} onClick={() => setForm(true )}>Вход</ExButton>}
         </VBoxPanel>

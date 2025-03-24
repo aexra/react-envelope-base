@@ -20,8 +20,8 @@ export const ImageAuthProvider: FC<{ children: React.ReactNode }> = ({ children 
     const [users, setUsers] = useState<ImageUser[] | null>(null);
 
     useEffect(() => {
-        const _users = localStorage.getItem('imageUsers');
-        const _user = localStorage.getItem('imageUser');
+        const _users = localStorage.getItem('imgUsers');
+        const _user = localStorage.getItem('imgUser');
 
         if (_users) setUsers(JSON.parse(_users));
         if (_user) setUser(JSON.parse(_user));
