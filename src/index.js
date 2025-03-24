@@ -10,6 +10,7 @@ import { AccountsProvider } from './react-envelope/contexts/AccountsContext';
 import { ThemeProvider } from './react-envelope/contexts/ThemeContext';
 import { NavigationProvider } from './react-envelope/contexts/NavigationContext';
 import { SyntaxHighlighterProvider } from './react-envelope/contexts/SyntaxHighlighterContext';
+import { ImageAuthProvider } from './contexts/ImageAuthContext';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -19,7 +20,9 @@ root.render(
         <AuthProvider>
           <AccountsProvider>
             <NavigationProvider>
-              <App/>
+              <ImageAuthProvider>
+                <App/>
+              </ImageAuthProvider>
             </NavigationProvider>
           </AccountsProvider>
         </AuthProvider>

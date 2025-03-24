@@ -9,6 +9,7 @@ import { useNavigation } from "../../react-envelope/hooks/useNavigation";
 import { Code, ExperimentOutlined, Pizza } from "../../react-envelope/components/dummies/Icons";
 import Styles from '../../App.css';
 import { Lab3 } from "../pages/Lab3/Lab3";
+import { Lab4 } from "../pages/Lab4/Lab4";
 
 export const Router = () => {
     const { routes, add } = useNavigation();
@@ -35,6 +36,13 @@ export const Router = () => {
             props: {
                 icon: <ExperimentOutlined/>
             }
+        }, {
+            name: 'Лабораторная работа №4',
+            to: '/lab/4',
+            requireAuth: true,
+            props: {
+                icon: <ExperimentOutlined/>
+            }
         });
     }, [])
 
@@ -50,6 +58,7 @@ export const Router = () => {
 
                 <Route path="/lab" element={<PrivateRoute/>}>
                     <Route path="3" element={<Lab3/>}/>
+                    <Route path="4" element={<Lab4/>}/>
                 </Route>
 
                 <Route path="/profile" element={<PrivateRoute/>}>

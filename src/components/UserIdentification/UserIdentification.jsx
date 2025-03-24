@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import toast from 'react-hot-toast';
 import css from './UserIdentification.module.css';
-import ExTextBox from '../../react-envelope/components/ui/input/ExTextBox/ExTextBox';
+import ExTextBox from '../../react-envelope/components/ui/input/text/ExTextBox/ExTextBox';
 
 const UserIdentification = ({ users, onLogin }) => {
     const [username, setUsername] = useState('');
