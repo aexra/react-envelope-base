@@ -10,6 +10,7 @@ export const ImagePassword = ({
     dotSize = 24,
     lineColor = 'var(--accent-color)',
     minPoints = 4,
+    fadeInterval = 1000,
     multiple = false,
     ...props
 }) => {
@@ -123,7 +124,7 @@ export const ImagePassword = ({
                     onSubmit(activeDots);
                 }
             }
-            setTimeout(resetPattern, 1000);
+            setTimeout(resetPattern, fadeInterval);
         }
     };
 

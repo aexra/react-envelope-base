@@ -50,7 +50,7 @@ export const ImageLoginForm = ({ onBadLogin }) => {
                        placeholder={'Введите логин'}
                        text={username}
                        textChanged={setUsername}/>
-            <ImagePassword onSubmit={handlePasswordSubmit}/>
+            <ImagePassword onSubmit={handlePasswordSubmit} fadeInterval={500}/>
             {isLocked && <div className={`${css.lock} flex col center g10`}>
                 <h1 className={css.title}>Ты в бане!</h1>
                 <img src={bonk} className={css.bonk}/>
