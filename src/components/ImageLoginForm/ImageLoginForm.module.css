@@ -1,0 +1,39 @@
+.panel {
+    position: relative;
+}
+
+.lock {
+    position: absolute;
+    
+    top: -25px;
+    left: 0;
+
+    width: 100%;
+    height: calc(100% + 25px);
+
+    background-color: rgba(0, 0, 0, 0.8);
+
+    border-radius: 10px;
+
+    z-index: 2000;
+}
+
+.bonk {
+    width: 60%;
+}
+
+.title {
+    color: var(--error-color);
+    background-color: rgba(0, 0, 0, 0.3);
+    width: 100%;
+    text-align: center;
+    padding: 5px 0;
+}
+
+.remainTitle {
+    color: var(--accent-font-color);
+}
+
+.remainCounter {
+    color: var(--error-color);
+}

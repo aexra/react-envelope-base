@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { useImageAuth } from "../../../hooks/useImageAuth";
 import { ExperimentOutlined, Logout } from "../../../react-envelope/components/dummies/Icons";
 import { HeaderTitle } from "../../../react-envelope/components/dummies/styleless/HeaderTitle";
@@ -10,7 +11,7 @@ import { ImageAuthForm } from "../../ImageAuthForm/ImageAuthForm";
 
 export const Lab4 = () => {
     const { user, logout } = useImageAuth();
-
+    
     return (
         <BasePage headerContent={<HeaderTitle text='ENVELOPE' icon={<ExperimentOutlined />} />}
                 footerContent={<DSTUFooter />}

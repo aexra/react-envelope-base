@@ -4,7 +4,7 @@ import { ImageUser } from "../interfaces/ImageUser";
 import { useObjectLocalStorage } from "../react-envelope/hooks/useObjectLocalStorage";
 
 export const useImageAuth = () => {
-    const { user, users, setUser, setUsers } = useContext(ImageAuthContext);
+    const { user, users, lockTimer: lock, attempts, setUser, setUsers, setLockTimer, setAttempts } = useContext(ImageAuthContext);
     const { setItem } = useObjectLocalStorage();
 
     const login = (name: string, password: string): ImageUser | null => {
@@ -52,5 +52,16 @@ export const useImageAuth = () => {
         }
     };
 
-    return { user, users, login, logout, register };
+    const lockUser = (seconds: number) => {
+        setLockTimer(seconds);
+        setItem('lock', seconds);
+    };
+
+    const countAttempt = () => {
+        const v = attempts + 1;
+        setAttempts(v);
+        setItem('attempts', v);
+    };
+
+    return { user, users, lock, attempts, login, logout, register, lockUser, countAttempt };
 };
