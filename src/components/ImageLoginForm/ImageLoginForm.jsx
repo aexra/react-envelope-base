@@ -13,7 +13,7 @@ import HBoxPanel from '../../react-envelope/components/layouts/HBoxPanel/HBoxPan
 export const ImageLoginForm = ({ onBadLogin }) => {
     const [username, setUsername] = useState('');
     const [isLocked, setIsLocked] = useState(false);
-    const { lock, attempts, login, lockUser, countAttempt } = useImageAuth();
+    const { lock, attempts, login, lockUser, countAttempt, resetAttempts } = useImageAuth();
     
     const handleBadLogin = () => {
         countAttempt();
@@ -30,15 +30,19 @@ export const ImageLoginForm = ({ onBadLogin }) => {
     };
 
     useEffect(() => {
-        if (attempts > 2) {
+        if (attempts > 2 && lock == 0) {
             setIsLocked(true);
             lockUser(5);
+            resetAttempts();
         }
     }, [attempts]);
 
     useEffect(() => {
         if (!lock || lock == 0) {
             setIsLocked(false);
+        }
+        if (lock && lock > 0) {
+            setIsLocked(true);
         }
     }, [lock]);
 

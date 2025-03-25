@@ -63,5 +63,10 @@ export const useImageAuth = () => {
         setItem('attempts', v);
     };
 
-    return { user, users, lock, attempts, login, logout, register, lockUser, countAttempt };
+    const resetAttempts = () => {
+        setAttempts(0);
+        setItem('attempts', 0);
+    };
+
+    return { user, users, lock, attempts, login, logout, register, lockUser, countAttempt, resetAttempts };
 };
