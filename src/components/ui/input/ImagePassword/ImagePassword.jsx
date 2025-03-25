@@ -12,6 +12,7 @@ export const ImagePassword = ({
     minPoints = 4,
     fadeInterval = 1000,
     multiple = false,
+    autoclear = false,
     ...props
 }) => {
     const [dots, setDots] = useState([]);
@@ -124,7 +125,7 @@ export const ImagePassword = ({
                     onSubmit(activeDots);
                 }
             }
-            setTimeout(resetPattern, fadeInterval);
+            if (autoclear) setTimeout(resetPattern, fadeInterval);
         }
     };
 
