@@ -10,12 +10,14 @@ import { Code, ExperimentOutlined, Pizza } from "../../react-envelope/components
 import Styles from '../../App.css';
 import { Lab3 } from "../pages/Lab3/Lab3";
 import { Lab4 } from "../pages/Lab4/Lab4";
+import { Lab6 } from "../pages/Lab6/Lab6";
 
 export const Router = () => {
     const { routes, add } = useNavigation();
 
     useEffect(() => {
-        add({
+        add(
+        {
             name: 'ENVELOPE',
             to: '/',
             props: {
@@ -43,6 +45,13 @@ export const Router = () => {
             props: {
                 icon: <ExperimentOutlined/>
             }
+        }, {
+            name: 'Лабораторная работа №6',
+            to: '/lab/6',
+            requireAuth: true,
+            props: {
+                icon: <ExperimentOutlined/>
+            }
         });
     }, [])
 
@@ -59,6 +68,7 @@ export const Router = () => {
                 <Route path="/lab" element={<PrivateRoute/>}>
                     <Route path="3" element={<Lab3/>}/>
                     <Route path="4" element={<Lab4/>}/>
+                    <Route path="6" element={<Lab6/>}/>
                 </Route>
 
                 <Route path="/profile" element={<PrivateRoute/>}>
