@@ -10,6 +10,7 @@ export const ImagePassword = ({
     dotSize = 24,
     lineColor = 'var(--accent-color)',
     minPoints = 4,
+    multiple = false,
     ...props
 }) => {
     const [dots, setDots] = useState([]);
@@ -103,6 +104,7 @@ export const ImagePassword = ({
             if (onInput) onInput(newActiveDots);
 
             setLines(newLines);
+
             // Сбрасываем позицию курсора после соединения точек
             setCursorPosition(null);
         }
@@ -120,9 +122,8 @@ export const ImagePassword = ({
                 if (onSubmit) {
                     onSubmit(activeDots);
                 }
-            } else {
-                setTimeout(resetPattern, 1000);
             }
+            setTimeout(resetPattern, 1000);
         }
     };
 
