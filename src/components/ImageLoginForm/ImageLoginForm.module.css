@@ -20,6 +20,8 @@
 
 .bonk {
     width: 60%;
+    user-select: none;
+    pointer-events: none;
 }
 
 .title {
@@ -28,12 +30,18 @@
     width: 100%;
     text-align: center;
     padding: 5px 0;
+    user-select: none;
+    pointer-events: none;
 }
 
 .remainTitle {
     color: var(--accent-font-color);
+    pointer-events: none;
+    pointer-events: none;
 }
 
 .remainCounter {
     color: var(--error-color);
+    pointer-events: none;
+    pointer-events: none;
 }
