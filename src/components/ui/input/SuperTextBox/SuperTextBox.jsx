@@ -1,36 +1,21 @@
-import { useState } from 'react';
+import { useState, useMemo, useCallback } from 'react';
 import VBoxPanel from '../../../../react-envelope/components/layouts/VBoxPanel/VBoxPanel';
 import ExTextBox from '../../../../react-envelope/components/ui/input/text/ExTextBox/ExTextBox';
 import css from './SuperTextBox.module.css';
 import { useStopwatch } from '../../../../react-envelope/hooks/useStopwatch';
 
-/**
- * Рассчитывает скорость печати в символах в минуту (CPM) и словах в минуту (WPM)
- * @param {number[]} intervals - массив интервалов между нажатиями (в мс)
- * @param {number} [pauseThreshold=1000] - интервалы больше этого значения считаются паузами (в мс)
- * @returns {Object} { cpm: number, wpm: number } - символы и слова в минуту
- */
 function calculateTypingSpeed(intervals, pauseThreshold = 3000) {
-    if (!intervals || intervals.length === 0) return { cpm: 0, wpm: 0 };
+    if (!intervals || intervals.length === 0) return { cpm: 0, wpm: 0, avi: 0, avf: 0 };
 
-    // Фильтруем паузы и слишком короткие интервалы (<50 мс — это, скорее, случайные нажатия)
     const validIntervals = intervals.filter(
         interval => interval >= 50 && interval <= pauseThreshold
     );
 
-    // Если все интервалы — паузы, считаем скорость нулевой
-    if (validIntervals.length === 0) return { cpm: 0, wpm: 0 };
+    if (validIntervals.length === 0) return { cpm: 0, wpm: 0, avi: 0, avf: 0 };
 
-    // Средний интервал между валидными нажатиями (в мс)
     const averageInterval = validIntervals.reduce((sum, x) => sum + x, 0) / validIntervals.length;
-
-    // Округленный
     const avi = Math.round(averageInterval);
-
-    // Символы в минуту (CPM) = (60 секунд * 1000 мс) / средний интервал
     const cpm = Math.round(60_000 / averageInterval);
-
-    // Слова в минуту (WPM) = CPM / 5 (стандартное слово = 5 символов)
     const wpm = Math.round(cpm / 5);
 
     return { cpm, wpm, avi, avf: averageInterval };
@@ -51,33 +36,40 @@ export const SuperTextBox = ({
     const [intervals, setIntervals] = useState([]);
     const [lastStop, setLastStop] = useState(0);
 
-    const handleTextChange = (e) => {
+    // Мемоизируем расчет скорости
+    const speed = useMemo(() => calculateTypingSpeed(intervals), [intervals]);
+
+    const handleTextChange = useCallback((e) => {
         setText(e);
         if (setValue) setValue(e);
 
-        if (!isRunning) start()
-        else {
-            const moment = time;
-            const interval = moment - lastStop;
-            setLastStop(moment);
-
-            setIntervals([...intervals, interval]);
+        const now = Date.now();
+        if (!isRunning) {
+            start();
+            setLastStop(now);
+        } else {
+            const interval = now - lastStop;
+            setLastStop(now);
+            setIntervals(prev => [...prev, interval]);
         }
-    };
-
-    const speed = () => {
-        return calculateTypingSpeed(intervals);
-    };
+    }, [isRunning, lastStop, setValue, start]);
 
     return (
         <VBoxPanel className={`${className}`} {...props}>
-            <ExTextBox text={text}
-                        textChanged={handleTextChange}
-                        hint={hint}
-                        placeholder={placeholder}
-                        className={`${inputClassName}`}
-                        {...inputProps}/>
-            <span className={`${css.counter} h-last`}>{`${speed().avi} ms (${speed().cpm} сим/мин, ${speed().wpm} слов/мин)`}</span>
+            <ExTextBox 
+                text={text}
+                textChanged={handleTextChange}
+                hint={hint}
+                placeholder={placeholder}
+                className={inputClassName}
+                wrap
+                {...inputProps}
+            />
+            {details && (
+                <span className={`${css.counter} h-last`}>
+                    {`${speed.avi} ms (${speed.cpm} сим/мин, ${speed.wpm} слов/мин)`}
+                </span>
+            )}
         </VBoxPanel>
     );
 };
