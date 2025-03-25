@@ -18,7 +18,7 @@ export const Lab4 = () => {
                 bodyGap='10px'>
             {user ? <VBoxPanel gap={'10px'}>
                 <h2>Здравствйте, {user?.name}!</h2>
-                <ExButton className={'accent-button'} onClick={() => logout()}><Logout/>Выйти</ExButton>
+                <ExButton className={'accent-button'} onClick={() => logout()}><Logout className='icon-m'/>Выйти</ExButton>
             </VBoxPanel> : <ImageAuthForm/>}
         </BasePage>
     );

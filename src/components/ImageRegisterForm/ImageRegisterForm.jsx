@@ -7,6 +7,7 @@ import ExTextBox from '../../react-envelope/components/ui/input/text/ExTextBox/E
 import ExButton from '../../react-envelope/components/ui/buttons/ExButton/ExButton';
 import { useImageAuth } from '../../hooks/useImageAuth';
 import toast from 'react-hot-toast';
+import { ImagePassword } from '../ui/input/ImagePassword/ImagePassword';
 
 export const ImageRegisterForm = ({ onRegister }) => {
     const [username, setUsername] = useState('');
@@ -30,6 +31,7 @@ export const ImageRegisterForm = ({ onRegister }) => {
                        placeholder={'Введите логин'}
                        text={username}
                        textChanged={setUsername}/>
+            <ImagePassword onInput={(e) => setPassword(e.join(""))}/>
             <ExButton className={'accent-button'} onClick={handleRegister}>Зарегистрироваться</ExButton>
         </DSTULabeledForm>
     );
