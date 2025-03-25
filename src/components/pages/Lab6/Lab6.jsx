@@ -6,6 +6,8 @@ import DSTUNavSidebar from "../../../react-envelope/components/widgets/DSTUNavSi
 import { SuperTextBox } from "../../ui/input/SuperTextBox/SuperTextBox";
 
 export const Lab6 = () => {
+    const eps = 50;
+    
     return (
         <BasePage headerContent={<HeaderTitle text='ENVELOPE' icon={<ExperimentOutlined />} />}
                 footerContent={<DSTUFooter />}
@@ -20,7 +22,8 @@ export const Lab6 = () => {
             <SuperTextBox hint={'Контрольная фраза'}
                         placeholder={'Введите фразу'}
                         details
-                        limit={20}/>
+                        limit={20}
+                        strictLimit/>
         </BasePage>
     );
 };

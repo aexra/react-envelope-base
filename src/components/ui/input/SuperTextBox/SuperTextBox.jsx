@@ -30,6 +30,7 @@ export const SuperTextBox = ({
     inputProps,
     details = false,
     limit = null,
+    strictLimit = false,
     ...props
 }) => {
     const { time, start, stop, formatted, isRunning } = useStopwatch();
@@ -65,7 +66,7 @@ export const SuperTextBox = ({
                 className={inputClassName}
                 wrap
                 limit={limit}
-                strictLimit
+                strictLimit={strictLimit}
                 {...inputProps}
             />
             {details && (
