@@ -19,7 +19,8 @@ export const Lab6 = () => {
                 }}>
             <SuperTextBox hint={'Контрольная фраза'}
                         placeholder={'Введите фразу'}
-                        details/>
+                        details
+                        limit={20}/>
         </BasePage>
     );
 };
