@@ -32,7 +32,7 @@ export const ImageLoginForm = ({ onBadLogin }) => {
     useEffect(() => {
         if (attempts > 2 && lock == 0) {
             setIsLocked(true);
-            lockUser(5);
+            lockUser(10);
             resetAttempts();
         }
     }, [attempts]);

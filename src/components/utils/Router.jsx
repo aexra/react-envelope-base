@@ -37,7 +37,7 @@ export const Router = () => {
                 icon: <ExperimentOutlined/>
             }
         }, {
-            name: 'Лабораторная работа №4',
+            name: 'Лабораторная работа №5',
             to: '/lab/4',
             requireAuth: true,
             props: {

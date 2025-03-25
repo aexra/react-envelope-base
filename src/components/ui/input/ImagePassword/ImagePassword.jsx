@@ -7,7 +7,7 @@ export const ImagePassword = ({
     onSubmit,
     onInput,
     onPatternComplete,
-    dotSize = 24,
+    dotSize = 25,
     lineColor = 'var(--accent-color)',
     minPoints = 4,
     fadeInterval = 1000,
@@ -159,11 +159,10 @@ export const ImagePassword = ({
                 onTouchMove={handleMove}
                 onTouchEnd={handleEnd}
             >
-                {/* Постоянные линии между точками */}
                 {lines.map((line, index) => {
                     const length = Math.sqrt(Math.pow(line.x2 - line.x1, 2) + Math.pow(line.y2 - line.y1, 2));
                     const angle = Math.atan2(line.y2 - line.y1, line.x2 - line.x1);
-                    
+
                     return (
                         <div 
                             key={`line-${index}`}
@@ -179,28 +178,26 @@ export const ImagePassword = ({
                     );
                 })}
                 
-                {/* Интерактивная линия к курсору */}
                 {isDrawing && lastActiveDot && cursorPosition && (
                     <div 
-                        className={css.tempLine}
-                        style={{
-                            width: `${Math.sqrt(
+                    className={css.tempLine}
+                    style={{
+                        width: `${Math.sqrt(
                                 Math.pow(cursorPosition.x - lastActiveDot.x, 2) + 
                                 Math.pow(cursorPosition.y - lastActiveDot.y, 2)
-                            )}px`,
+                        )}px`,
                             left: `${lastActiveDot.x}px`,
                             top: `${lastActiveDot.y}px`,
-                            transform: `rotate(${Math.atan2(
+                        transform: `rotate(${Math.atan2(
                                 cursorPosition.y - lastActiveDot.y, 
                                 cursorPosition.x - lastActiveDot.x
-                            )}rad)`,
-                            backgroundColor: lineColor,
-                            opacity: 0.6
-                        }}
-                    />
+                        )}rad)`,
+                        backgroundColor: lineColor,
+                        opacity: 0.6
+                    }}
+                />
                 )}
                 
-                {/* Точки */}
                 {dots.map(dot => (
                     <div 
                         key={`dot-${dot.id}`}
@@ -217,12 +214,13 @@ export const ImagePassword = ({
                 ))}
             </div>
             
-            <button 
+            {!autoclear && <button 
                 className={css.resetButton}
                 onClick={resetPattern}
             >
                 Сбросить
             </button>
+            }
         </div>
     );
 };
