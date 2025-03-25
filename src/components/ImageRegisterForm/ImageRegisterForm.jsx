@@ -26,7 +26,9 @@ export const ImageRegisterForm = ({ onRegister }) => {
     };
 
     return (
-        <DSTULabeledForm iconContent={<UserFilled className='icon-l'/>} label={'Регистрация'} className={'flex col g10'}>
+        <DSTULabeledForm iconContent={<UserFilled className='icon-l'/>} label={'Регистрация'} className={'flex col g10'} bodyProps={{
+            className: 'pad10 flex col g10'
+        }}>
             <ExTextBox hint={'Логин'}
                        placeholder={'Введите логин'}
                        text={username}

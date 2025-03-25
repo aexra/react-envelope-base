@@ -43,7 +43,9 @@ export const ImageLoginForm = ({ onBadLogin }) => {
     }, [lock]);
 
     return (
-        <DSTULabeledForm iconContent={<UserFilled className='icon-l'/>} label={'Личный кабинет'} className={`flex col g10 ${css.panel}`}>
+        <DSTULabeledForm iconContent={<UserFilled className='icon-l'/>} label={'Личный кабинет'} className={`flex col g10 ${css.panel}`} bodyProps={{
+            className: 'pad10 flex col g10'
+        }}>
             <ExTextBox hint={'Логин'}
                        placeholder={'Введите логин'}
                        text={username}
