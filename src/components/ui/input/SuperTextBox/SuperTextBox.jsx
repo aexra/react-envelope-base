@@ -71,7 +71,7 @@ export const SuperTextBox = ({
             />
             {details && (
                 <span className={`${css.counter} h-last`}>
-                    {`${speed.avi} ms (${speed.cpm} сим/мин, ${speed.wpm} слов/мин)`}
+                    {`${speed.avi} MS ${speed.cpm} CPM ${speed.wpm} WPM`}
                 </span>
             )}
         </VBoxPanel>
