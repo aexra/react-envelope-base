@@ -6,7 +6,7 @@ import { DevExpPage } from "../../react-envelope/components/pages/DevExpPage/Dev
 import { UserSettingsPage } from "../../react-envelope/components/pages/UserSettingsPage/UserSettingsPage";
 import { useEffect } from "react";
 import { useNavigation } from "../../react-envelope/hooks/useNavigation";
-import { Code, Pizza } from "../../react-envelope/components/dummies/Icons";
+import { Code, Package, Pizza } from "../../react-envelope/components/dummies/Icons";
 import Styles from '../../App.css';
 import { DocsPage } from "../../react-envelope/components/pages/development/DocsPage/DocsPage";
 
@@ -32,8 +32,7 @@ export const Router = () => {
             name: 'Новая основа',
             to: '/_lab/new',
             props: {
-                icon: <Code/>,
-                className: 'debug'
+                icon: <Package/>
             }
         });
     }, [])
@@ -43,7 +42,7 @@ export const Router = () => {
             <Routes>
                 <Route path="/" element={<SamplesPage/>}/>
                 <Route path="/login" element={<AuthPage/>}/>
-                
+
                 <Route path="/_lab/new" element={<DocsPage/>}/>
 
                 <Route element={<PrivateRoute roles='dev'/>}>
