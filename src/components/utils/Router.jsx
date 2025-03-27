@@ -6,8 +6,9 @@ import { DevExpPage } from "../../react-envelope/components/pages/DevExpPage/Dev
 import { UserSettingsPage } from "../../react-envelope/components/pages/UserSettingsPage/UserSettingsPage";
 import { useEffect } from "react";
 import { useNavigation } from "../../react-envelope/hooks/useNavigation";
-import { Code, Pizza } from "../../react-envelope/components/dummies/Icons";
+import { Code, Package, Pizza } from "../../react-envelope/components/dummies/Icons";
 import Styles from '../../App.css';
+import { DocsPage } from "../../react-envelope/components/pages/development/DocsPage/DocsPage";
 
 export const Router = () => {
     const { routes, add } = useNavigation();
@@ -27,6 +28,12 @@ export const Router = () => {
                 icon: <Code/>,
                 className: 'debug'
             }
+        }, {
+            name: 'ENVELOPE 2.0',
+            to: '/_lab/new',
+            props: {
+                icon: <Package/>
+            }
         });
     }, [])
 
@@ -35,6 +42,8 @@ export const Router = () => {
             <Routes>
                 <Route path="/" element={<SamplesPage/>}/>
                 <Route path="/login" element={<AuthPage/>}/>
+
+                <Route path="/_lab/new" element={<DocsPage/>}/>
 
                 <Route element={<PrivateRoute roles='dev'/>}>
                     <Route path="/_lab" element={<DevExpPage/>}/>
