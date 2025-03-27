@@ -29,7 +29,7 @@ export const Router = () => {
                 className: 'debug'
             }
         }, {
-            name: 'Новая основа',
+            name: 'ENVELOPE 2.0',
             to: '/_lab/new',
             props: {
                 icon: <Package/>
