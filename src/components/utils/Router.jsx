@@ -21,18 +21,18 @@ export const Router = () => {
                 icon: <Pizza/>
             }
         }, {
+            name: 'ENVELOPE 2.0',
+            to: '/_lab/new',
+            props: {
+                icon: <Package/>
+            }
+        }, {
             name: 'Экспериментальная',
             to: '/_lab/exp',
             // permissions: 'dev',
             props: {
                 icon: <Code/>,
                 className: 'debug'
-            }
-        }, {
-            name: 'ENVELOPE 2.0',
-            to: '/_lab/new',
-            props: {
-                icon: <Package/>
             }
         });
     }, [])
