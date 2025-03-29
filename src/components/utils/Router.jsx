@@ -7,24 +7,24 @@ import { UserSettingsPage } from "../../react-envelope/components/pages/UserSett
 import { useEffect } from "react";
 import { useNavigation } from "../../react-envelope/hooks/useNavigation";
 import { Code, Package, Pizza } from "../../react-envelope/components/dummies/Icons";
-import Styles from '../../App.css';
 import { DocsPage } from "../../react-envelope/components/pages/development/DocsPage/DocsPage";
+import { ScrollRestoration } from "../../react-envelope/utils/ScrollRestoration";
 
 export const Router = () => {
     const { routes, add } = useNavigation();
 
     useEffect(() => {
         add({
-            name: 'ENVELOPE',
+            name: 'ENVELOPE 2.0',
             to: '/',
             props: {
-                icon: <Pizza/>
+                icon: <Package/>
             }
         }, {
-            name: 'ENVELOPE 2.0',
-            to: '/_lab/new',
+            name: 'ENVELOPE',
+            to: '/_lab/old',
             props: {
-                icon: <Package/>
+                icon: <Pizza/>
             }
         }, {
             name: 'Экспериментальная',
@@ -39,12 +39,13 @@ export const Router = () => {
 
     return (
         <BrowserRouter>
+            <ScrollRestoration/>
             <Routes>
-                <Route path="/" element={<SamplesPage/>}/>
+                <Route path="/" element={<DocsPage/>}/>
                 <Route path="/login" element={<AuthPage/>}/>
 
                 <Route path="/_lab">
-                    <Route path="new" element={<DocsPage/>}/>
+                    <Route path="old" element={<SamplesPage/>}/>
                     <Route path="exp" element={<DevExpPage/>}/>
                 </Route>
 
