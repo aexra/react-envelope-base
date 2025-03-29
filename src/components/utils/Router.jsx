@@ -7,8 +7,8 @@ import { UserSettingsPage } from "../../react-envelope/components/pages/UserSett
 import { useEffect } from "react";
 import { useNavigation } from "../../react-envelope/hooks/useNavigation";
 import { Code, Package, Pizza } from "../../react-envelope/components/dummies/Icons";
-import Styles from '../../App.css';
 import { DocsPage } from "../../react-envelope/components/pages/development/DocsPage/DocsPage";
+import { ScrollRestoration } from "../../react-envelope/utils/ScrollRestoration";
 
 export const Router = () => {
     const { routes, add } = useNavigation();
@@ -39,6 +39,7 @@ export const Router = () => {
 
     return (
         <BrowserRouter>
+            <ScrollRestoration/>
             <Routes>
                 <Route path="/" element={<DocsPage/>}/>
                 <Route path="/login" element={<AuthPage/>}/>
