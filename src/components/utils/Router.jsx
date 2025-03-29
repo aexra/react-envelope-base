@@ -15,16 +15,16 @@ export const Router = () => {
 
     useEffect(() => {
         add({
-            name: 'ENVELOPE',
+            name: 'ENVELOPE 2.0',
             to: '/',
             props: {
-                icon: <Pizza/>
+                icon: <Package/>
             }
         }, {
-            name: 'ENVELOPE 2.0',
-            to: '/_lab/new',
+            name: 'ENVELOPE',
+            to: '/_lab/old',
             props: {
-                icon: <Package/>
+                icon: <Pizza/>
             }
         }, {
             name: 'Экспериментальная',
@@ -40,11 +40,11 @@ export const Router = () => {
     return (
         <BrowserRouter>
             <Routes>
-                <Route path="/" element={<SamplesPage/>}/>
+                <Route path="/" element={<DocsPage/>}/>
                 <Route path="/login" element={<AuthPage/>}/>
 
                 <Route path="/_lab">
-                    <Route path="new" element={<DocsPage/>}/>
+                    <Route path="old" element={<SamplesPage/>}/>
                     <Route path="exp" element={<DevExpPage/>}/>
                 </Route>
 
