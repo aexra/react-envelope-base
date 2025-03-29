@@ -21,18 +21,18 @@ export const Router = () => {
                 icon: <Pizza/>
             }
         }, {
-            name: 'Экспериментальная',
-            to: '/_lab',
-            permissions: 'dev',
-            props: {
-                icon: <Code/>,
-                className: 'debug'
-            }
-        }, {
             name: 'ENVELOPE 2.0',
             to: '/_lab/new',
             props: {
                 icon: <Package/>
+            }
+        }, {
+            name: 'Экспериментальная',
+            to: '/_lab/exp',
+            // permissions: 'dev',
+            props: {
+                icon: <Code/>,
+                className: 'debug'
             }
         });
     }, [])
@@ -43,10 +43,9 @@ export const Router = () => {
                 <Route path="/" element={<SamplesPage/>}/>
                 <Route path="/login" element={<AuthPage/>}/>
 
-                <Route path="/_lab/new" element={<DocsPage/>}/>
-
-                <Route element={<PrivateRoute roles='dev'/>}>
-                    <Route path="/_lab" element={<DevExpPage/>}/>
+                <Route path="/_lab">
+                    <Route path="new" element={<DocsPage/>}/>
+                    <Route path="exp" element={<DevExpPage/>}/>
                 </Route>
 
                 <Route path="/profile" element={<PrivateRoute/>}>
