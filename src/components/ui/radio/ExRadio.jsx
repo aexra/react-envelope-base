@@ -1,13 +1,13 @@
 import { useState, useEffect } from 'react';
 import css from './ExRadio.module.css';
-import { RadioSelectedIcon, RadioUnselectedIcon } from '../../react-envelope/components/dummies/Icons';
+import { RadioSelectedIcon, RadioUnselectedIcon } from '../../dummies/Icons';
 
-function ExRadio({
+export const ExRadio = ({
     className,
     type = 'info',
     selected = false,
     onChange
-}) {
+}) => {
     const [isSelected, setIsSelected] = useState(selected);
     const [isMounted, setIsMounted] = useState(false);
     const [isAnimating, setIsAnimating] = useState(false);
