@@ -1,7 +1,7 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { SamplesPage } from '../../react-envelope/components/pages/SamplesPage/SamplesPage';
 import { PrivateRoute } from "../../react-envelope/utils/PrivateRoute";
-import { DevExpPage } from "../../react-envelope/components/pages/DevExpPage/DevExpPage";
+import { DevExpPage } from "../../react-envelope/components/pages/development/DevExpPage/DevExpPage";
 import { UserSettingsPage } from "../../react-envelope/components/pages/UserSettingsPage/UserSettingsPage";
 import { useEffect } from "react";
 import { useNavigation } from "../../react-envelope/hooks/useNavigation";
