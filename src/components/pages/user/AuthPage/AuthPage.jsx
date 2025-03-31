@@ -27,7 +27,12 @@ export const AuthPage = () => {
         } catch (er) {
             console.log(er);
             // toast.error(er.response.data.message);
-            toast.error('Ошибка запроса. Проверьте правильность введенных данных.');
+
+            if (er.status == 404) {
+                toast.error('Пользователь не найден');
+            } else {
+                toast.error('Ошибка запроса\nПроверьте правильность введенных данных');
+            }
         }
     };
 
