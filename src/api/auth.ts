@@ -3,7 +3,7 @@ import { User } from '../interfaces/User';
 import api from './config';
 
 export const login = async (login: string, password: string) => {
-    const response = await api.post(`/account/login`, {
+    const response = await api.post(`/identity/account/login`, {
         email: login,
         password: password
     });
@@ -11,7 +11,7 @@ export const login = async (login: string, password: string) => {
 };
 
 export const register = async (auth: { login: string, password: string }, user: User) => {
-    const response = await api.post(`/account/register`, {
+    const response = await api.post(`/identity/account/register`, {
         firstname: user.firstname, 
         lastname: user.lastname, 
         middlename: user.middlename, 
