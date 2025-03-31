@@ -19,8 +19,13 @@ export const updateself = async (auth: Auth, user: User) => {
 };
 
 export const updateavatarself = async (file: any) => {
-    const response = await api.put("/identity/users/me/avatar", {
-        imageFile: file
+    const formData = new FormData();
+    formData.append('imageFile', file);
+
+    const response = await api.put("/identity/users/me/avatar", formData, {
+        headers: {
+            'Content-Type': 'multipart/form-data'
+        }
     });
     return response;
 };
