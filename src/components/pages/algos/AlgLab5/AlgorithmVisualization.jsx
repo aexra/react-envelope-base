@@ -74,7 +74,7 @@ const IndividualVisualization = ({ individual, showDetails }) => (
                             </div>
                         </div>
                     ))}
-                </div>
+                </div>``
             </>
         )}
     </div>
@@ -82,7 +82,7 @@ const IndividualVisualization = ({ individual, showDetails }) => (
 
 // Компонент для отображения события кроссовера
 const CrossoverEventVisualization = ({ event }) => (
-    <div className={styles.event}>
+    <div className={`${styles.event} ${styles.cross}`}>
         <h4>🔀 Кроссовер между {event.parents[0].name} и {event.parents[1].name}</h4>
 
         <div className={styles.parents}>
@@ -124,7 +124,7 @@ const CrossoverEventVisualization = ({ event }) => (
 
 // Компонент для отображения события мутации
 const MutationEventVisualization = ({ event }) => (
-    <div className={styles.event}>
+    <div className={`${styles.event} ${styles.mut}`}>
         <h4>🧬 Мутация особи {event.individual.name}</h4>
 
         <div className={styles.mutationDetails}>
