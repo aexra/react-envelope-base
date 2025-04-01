@@ -43,22 +43,9 @@
 
 .buttonGroup {
     display: flex;
+    flex-direction: row;
     gap: 10px;
     margin-top: 20px;
-}
-
-.buttonGroup button {
-    flex: 1;
-    padding: 10px;
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-}
-
-.buttonGroup button:disabled {
-    background-color: #cccccc;
 }
 
 .generation {

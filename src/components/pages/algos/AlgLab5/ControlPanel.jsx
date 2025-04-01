@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import styles from './AlgLab5.module.css';
 import { TextBox } from '../../../../react-envelope/components/ui/input/text/TextBox/TextBox';
+import ExButton from '../../../../react-envelope/components/ui/buttons/ExButton/ExButton';
 
 export const ControlPanel = ({ initialValues, onSolve, onClear, isRunning, className }) => {
   const [formValues, setFormValues] = useState(initialValues);
@@ -12,16 +13,9 @@ export const ControlPanel = ({ initialValues, onSolve, onClear, isRunning, class
     }));
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log(formValues);
-    onSolve(formValues);
-  };
-
   return (
     <div className={`${styles.controlPanel} ${className}`}>
       <span className='bold' style={{fontSize: 'var(--h2-font-size)'}}>Параметры алгоритма</span>
-      <form onSubmit={handleSubmit} className='flex col g10'>
         <TextBox 
           placeholder="Введите сид рандома"
           borderType="fullr"
@@ -103,15 +97,10 @@ export const ControlPanel = ({ initialValues, onSolve, onClear, isRunning, class
           onChange={(e) => handleChange('mutationProbability', e)}
         />
         
-        <div className={styles.buttonGroup}>
-          <button type="submit" disabled={isRunning}>
-            Решить
-          </button>
-          <button type="button" onClick={onClear} disabled={isRunning}>
-            Очистить
-          </button>
+        <div className={styles.buttonGroup} style={{display: isRunning ? 'none' : 'flex'}}>
+          <ExButton type={'success'} onClick={onSolve} className={'flex-1'}>Решить</ExButton>
+          <ExButton type={'error'} onClick={onClear}>Очистить</ExButton>
         </div>
-      </form>
     </div>
   );
 };
