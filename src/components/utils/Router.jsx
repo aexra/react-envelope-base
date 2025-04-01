@@ -5,10 +5,11 @@ import { DevExpPage } from "../../react-envelope/components/pages/development/De
 import { UserSettingsPage } from "../../react-envelope/components/pages/UserSettingsPage/UserSettingsPage";
 import { useEffect } from "react";
 import { useNavigation } from "../../react-envelope/hooks/useNavigation";
-import { Code, Package, Pizza } from "../../react-envelope/components/dummies/Icons";
+import { Code, ExperimentOutlined, Package, Pizza } from "../../react-envelope/components/dummies/Icons";
 import { DocsPage } from "../../react-envelope/components/pages/development/DocsPage/DocsPage";
 import { ScrollRestoration } from "../../react-envelope/utils/ScrollRestoration";
 import { AuthPage } from "../pages/user/AuthPage/AuthPage";
+import { AlgLab5 } from "../pages/algos/AlgLab5";
 
 export const Router = () => {
     const { routes, add } = useNavigation();
@@ -27,6 +28,12 @@ export const Router = () => {
                 icon: <Pizza/>
             }
         }, {
+            name: 'Модифицированный алгоритм Голдберга',
+            to: '/alglab/5',
+            props: {
+                icon: <ExperimentOutlined/>
+            }
+        }, {
             name: 'Экспериментальная',
             to: '/_lab/exp',
             // permissions: 'dev',
@@ -42,6 +49,10 @@ export const Router = () => {
             <ScrollRestoration/>
             <Routes>
                 <Route path="/" element={<DocsPage/>}/>
+
+                <Route path="/alglab">
+                    <Route path="5" element={<AlgLab5/>}/>
+                </Route>
 
                 <Route path="/_lab">
                     <Route path="old" element={<SamplesPage/>}/>
