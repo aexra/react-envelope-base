@@ -22,7 +22,7 @@ class SeededRandom {
 }
 
 // Компонент для отображения особи
-const Individual = ({ individual, index, processorRanges, tasks }) => {
+const Individual = ({ individual, index, processorRanges, tasks, isBestCandidate }) => {
     const phenotype = useMemo(() => {
         const processorTimes = new Array(processorRanges.length).fill(0);
         individual.genes.forEach((gene, taskIndex) => {
@@ -37,8 +37,8 @@ const Individual = ({ individual, index, processorRanges, tasks }) => {
     const maxPhenotype = Math.max(...phenotype);
 
     return (
-        <div className={styles.individual}>
-            <h4>Особь #{index + 1} (Макс: {maxPhenotype})</h4>
+        <div className={`${styles.individual} ${isBestCandidate ? styles.bestCandidate : ''}`}>
+            <h4>Особь #{index + 1} (Макс: {maxPhenotype}) {isBestCandidate && '← Лучшая'}</h4>
             <div className={styles.genes}>
                 {individual.genes.map((gene, i) => {
                     const processorIndex = processorRanges.findIndex(range => gene >= range[0] && gene < range[1]);
@@ -83,11 +83,12 @@ const Generation = ({ generation, processorRanges, tasks, bestPhenotype }) => {
                         index={i}
                         processorRanges={processorRanges}
                         tasks={tasks}
+                        isBestCandidate={individual.isBestCandidate}
                     />
                 ))}
             </div>
             <div className={styles.best}>
-                <strong>Лучший фенотип:</strong> {bestPhenotype}
+                <strong>Лучший фенотип поколения:</strong> {bestPhenotype}
             </div>
         </div>
     );
@@ -236,7 +237,7 @@ export const AlgLab5 = () => {
             const lastGeneration = generations[generations.length - 1];
             const newIndividuals = [];
 
-            // Скрещивание
+            // Скрещивание с отбором лучшей особи из родителя и потомков
             for (let i = 0; i < lastGeneration.individuals.length; i++) {
                 const parent1 = { ...lastGeneration.individuals[i], index: i };
                 let j;
@@ -245,35 +246,46 @@ export const AlgLab5 = () => {
                 } while (j === i);
                 const parent2 = { ...lastGeneration.individuals[j], index: j };
 
+                // Скрещивание
                 const [child1, child2] = crossover(parent1, parent2, random, params.crossoverProbability);
-                newIndividuals.push(
-                    mutate(child1, random, params.mutationProbability),
-                    mutate(child2, random, params.mutationProbability)
-                );
+
+                // Мутация
+                const mutatedChild1 = mutate(child1, random, params.mutationProbability);
+                const mutatedChild2 = mutate(child2, random, params.mutationProbability);
+
+                // Вычисляем фенотипы для всех трех особей (родитель и два потомка)
+                const parentPhenotype = calculatePhenotype(parent1, processorRanges, tasks);
+                const child1Phenotype = calculatePhenotype(mutatedChild1, processorRanges, tasks);
+                const child2Phenotype = calculatePhenotype(mutatedChild2, processorRanges, tasks);
+
+                // Выбираем лучшую особь из трех
+                const candidates = [
+                    { individual: parent1, phenotype: parentPhenotype },
+                    { individual: mutatedChild1, phenotype: child1Phenotype },
+                    { individual: mutatedChild2, phenotype: child2Phenotype },
+                ];
+
+                candidates.sort((a, b) => a.phenotype - b.phenotype);
+                const bestCandidate = candidates[0].individual;
+
+                // Добавляем лучшую особь в новое поколение
+                newIndividuals.push(bestCandidate);
             }
-
-            // Выбор лучших особей для нового поколения
-            const evaluatedIndividuals = newIndividuals.map(individual => ({
-                individual,
-                phenotype: calculatePhenotype(individual, processorRanges, tasks),
-            }));
-
-            evaluatedIndividuals.sort((a, b) => a.phenotype - b.phenotype);
-            const selectedIndividuals = evaluatedIndividuals
-                .slice(0, params.populationSize)
-                .map(item => item.individual);
 
             const newGeneration = {
                 number: currentGeneration,
-                individuals: selectedIndividuals,
+                individuals: newIndividuals,
             };
 
             generations.push(newGeneration);
 
-            // Проверка улучшения
-            const currentBestPhenotype = evaluatedIndividuals[0].phenotype;
+            // Находим лучший фенотип в новом поколении
+            const currentBestPhenotype = Math.min(
+                ...newIndividuals.map(ind => calculatePhenotype(ind, processorRanges, tasks))
+            );
             bestPhenotypes.push(currentBestPhenotype);
 
+            // Проверка улучшения
             if (currentBestPhenotype < bestPhenotype) {
                 bestPhenotype = currentBestPhenotype;
                 generationsWithoutImprovement = 0;
