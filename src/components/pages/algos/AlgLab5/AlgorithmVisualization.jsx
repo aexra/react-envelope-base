@@ -74,7 +74,7 @@ const IndividualVisualization = ({ individual, showDetails }) => (
                             </div>
                         </div>
                     ))}
-                </div>``
+                </div>
             </>
         )}
     </div>
