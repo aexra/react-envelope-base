@@ -39,3 +39,96 @@
 .buttonGroup {
     gap: 10px;
 }
+
+.results {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    margin-top: 20px;
+}
+
+.tasks,
+.processors {
+    background: var(--body-bk-color);
+    padding: 15px;
+    border-radius: 8px;
+}
+
+.taskList,
+.processorRanges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 20px;
+    margin-top: 10px;
+}
+
+.generations {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.generation {
+    background: var(--body-bk-color);
+    padding: 20px;
+    border-radius: 8px;
+    border-left: 4px solid #4CAF50;
+}
+
+.individuals {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin-top: 15px;
+}
+
+.individual {
+    background: var(--highlight-light);
+    padding: 15px;
+    border-radius: 6px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    flex: 1;
+    min-width: 300px;
+}
+
+.genes {
+    margin: 10px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.gene {
+    padding: 3px 5px;
+    /* background: #f0f0f0; */
+    border-radius: 3px;
+    font-size: 0.9em;
+}
+
+.phenotype,
+.parents,
+.mutation,
+.best {
+    margin-top: 8px;
+    font-size: 0.9em;
+    padding: 5px 10px;
+    border-radius: 3px;
+}
+
+.phenotype {
+    border-left: 4px solid var(--info-color);
+}
+
+.parents {
+    border-left: 4px solid var(--success-color);
+}
+
+.mutation {
+    border-left: 4px solid var(--error-color);
+}
+
+.best {
+    border-left: 4px solid var(--tip-color);
+    font-weight: bold;
+    margin-top: 15px;
+}
