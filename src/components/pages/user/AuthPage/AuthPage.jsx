@@ -15,7 +15,6 @@ export const AuthPage = () => {
     const { auth, user, login, register} = useAuth();
     const [hasLoggedIn, setHasLoggedIn] = useState(false);
 
-    
     const handleLogin = async (data) => {
         try {
             const response = await login({
@@ -38,17 +37,6 @@ export const AuthPage = () => {
 
     const handleRegister = async (data) => {
         try {
-            console.log({
-                login: data.login,
-                password: data.password
-            });
-
-            console.log({
-                firstname: data.firstname,
-                lastname: data.lastname,
-                middlename: data.middlename
-            });
-
             const rr = await register({
                 login: data.login,
                 password: data.password
