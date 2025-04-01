@@ -63,7 +63,18 @@ const Individual = ({ individual, index, processorRanges, tasks, isBestCandidate
             )}
             {individual.mutation && (
                 <div className={styles.mutation}>
-                    <strong>Мутация:</strong> ген {individual.mutation.index} ({individual.mutation.before} → {individual.mutation.after})
+                    <strong>Мутация:</strong>
+                    <div className={styles.mutationDetails}>
+                        <div>Ген {individual.mutation.index}:</div>
+                        <div>Десятичное: {individual.mutation.before} → {individual.mutation.after}</div>
+                        <div className={styles.binaryCode}>
+                            Двоичное:
+                            <span dangerouslySetInnerHTML={{ __html: individual.mutation.beforeBits }} />
+                            →
+                            <span dangerouslySetInnerHTML={{ __html: individual.mutation.afterBits }} />
+                        </div>
+                        <div>Изменен бит #{individual.mutation.bitIndex}</div>
+                    </div>
                 </div>
             )}
         </div>
@@ -148,7 +159,10 @@ export const AlgLab5 = () => {
 
     const crossover = (parent1, parent2, random, crossoverProbability) => {
         if (random.next() > crossoverProbability) {
-            return [parent1, parent2];
+            return [
+                { ...parent1, parents: [`Особь ${parent1.index + 1}`] },
+                { ...parent2, parents: [`Особь ${parent2.index + 1}`] }
+            ];
         }
 
         const crossoverPoint = random.nextInt(1, parent1.genes.length - 1);
@@ -174,8 +188,22 @@ export const AlgLab5 = () => {
         const geneIndex = random.nextInt(0, individual.genes.length - 1);
         const bitIndex = random.nextInt(0, 7);
         const before = individual.genes[geneIndex];
+
+        // Конвертируем в двоичное представление с ведущими нулями
+        const beforeBinary = before.toString(2).padStart(8, '0');
+
         const mask = 1 << bitIndex;
         const after = before ^ mask;
+
+        // Конвертируем в двоичное представление с ведущими нулями
+        const afterBinary = after.toString(2).padStart(8, '0');
+
+        // Подсветим измененный бит
+        let beforeBits = beforeBinary.split('');
+        let afterBits = afterBinary.split('');
+
+        beforeBits[7 - bitIndex] = `<span class="${styles.changedBit}">${beforeBits[7 - bitIndex]}</span>`;
+        afterBits[7 - bitIndex] = `<span class="${styles.changedBit}">${afterBits[7 - bitIndex]}</span>`;
 
         return {
             ...individual,
@@ -188,6 +216,11 @@ export const AlgLab5 = () => {
                 index: geneIndex + 1,
                 before,
                 after,
+                beforeBinary,
+                afterBinary,
+                bitIndex: 7 - bitIndex, // Нумерация битов справа налево (0-7)
+                beforeBits: beforeBits.join(''),
+                afterBits: afterBits.join(''),
             },
         };
     };
