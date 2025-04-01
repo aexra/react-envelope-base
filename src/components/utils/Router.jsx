@@ -9,7 +9,7 @@ import { Code, ExperimentOutlined, Package, Pizza } from "../../react-envelope/c
 import { DocsPage } from "../../react-envelope/components/pages/development/DocsPage/DocsPage";
 import { ScrollRestoration } from "../../react-envelope/utils/ScrollRestoration";
 import { AuthPage } from "../pages/user/AuthPage/AuthPage";
-import { AlgLab5 } from "../pages/algos/AlgLab5";
+import { AlgLab5 } from "../pages/algos/AlgLab5/AlgLab5";
 
 export const Router = () => {
     const { routes, add } = useNavigation();
