@@ -117,7 +117,7 @@ export const AlgLab5 = () => {
         crossoverProbability: 1,
         mutationProbability: 1,
     });
-    const [cpv, setCPV] = useState(true);
+    const [cpv, setCPV] = useState(false);
     const [state, setState] = useState({
         tasks: [],
         processorRanges: [],
