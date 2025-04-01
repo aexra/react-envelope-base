@@ -98,7 +98,7 @@ export const ControlPanel = ({ initialValues, onSolve, onClear, isRunning, class
         />
         
         <div className={styles.buttonGroup} style={{display: isRunning ? 'none' : 'flex'}}>
-          <ExButton type={'success'} onClick={onSolve} className={'flex-1'}>Решить</ExButton>
+          <ExButton type={'success'} onClick={() => onSolve(formValues)} className={'flex-1'}>Решить</ExButton>
           <ExButton type={'error'} onClick={onClear}>Очистить</ExButton>
         </div>
     </div>
