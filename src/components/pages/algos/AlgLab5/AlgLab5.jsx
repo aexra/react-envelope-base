@@ -106,7 +106,7 @@ const Generation = ({ generation, processorRanges, tasks, bestPhenotype }) => {
 
             {/* Информация о скрещиваниях */}
             {generation.crossovers &&
-                <div className={css.crossovers}>
+                <div className={`flex col g5 ${css.crossover}`}>
                     {generation.crossovers.map((crossover, i) => (
                         <CrossoverDetails key={i} crossover={crossover} processorRanges={processorRanges} tasks={tasks} />
                     ))}

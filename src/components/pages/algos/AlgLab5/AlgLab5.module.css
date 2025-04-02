@@ -193,11 +193,7 @@ h4 {
 }
 
 .crossover {
-    margin-top: 20px;
-    padding: 15px;
-    background-color: var(--highlight-light);
-    border-radius: 8px;
-    border-left: 4px solid var(--info-color);
+    
 }
 
 .crossover h5 {
