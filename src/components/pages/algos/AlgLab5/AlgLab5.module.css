@@ -148,7 +148,7 @@
 }
 
 .bestCandidate {
-    border: 2px solid #4CAF50;
+    border: 2px solid var(--accent-color);
     /* background-color: #f8fff8; */
 }
 
