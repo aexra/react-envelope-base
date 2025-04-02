@@ -2,10 +2,12 @@ import React, { useState, useCallback, useMemo } from 'react';
 import css from './AlgLab5.module.css';
 import { ControlPanel } from './ControlPanel';
 import { PageBase } from '../../../../react-envelope/components/pages/base/PageBase/PageBase';
-import { Close, Configure } from '../../../../react-envelope/components/dummies/Icons';
+import { Close, Configure, Crossover } from '../../../../react-envelope/components/dummies/Icons';
 import { Headline } from '../../../../react-envelope/components/ui/labels/Headline/Headline';
 import { Pair } from '../../../../react-envelope/components/layouts/Pair/Pair';
 import { StatusTag } from '../../../../react-envelope/components/ui/labels/StatusTag/StatusTag';
+import { Expander } from '../../../../react-envelope/components/wrappers/Expander/Expander';
+import { Callout } from '../../../../react-envelope/components/dummies/Callout/Callout';
 
 const getRandomInt = (min, max) => {
     min = Math.ceil(min);
@@ -65,11 +67,11 @@ const Individual = ({ individual, index, processorRanges, tasks }) => {
             <div className={css.phenotype}>
                 <strong>Фенотип:</strong>
                 <div className='flex row g5'>
-                   {phenotype.map((time, i) => (
-                    <span key={i}>{time}</span>
-                ))} 
+                    {phenotype.map((time, i) => (
+                        <span key={i}>{time}</span>
+                    ))}
                 </div>
-                
+
             </div>
             {individual.parents && (
                 <div className={css.parents}>
@@ -133,27 +135,29 @@ const Generation = ({ generation, processorRanges, tasks, bestPhenotype }) => {
 
 const CrossoverDetails = ({ crossover, processorRanges, tasks }) => {
     return (
-        <div className={css.crossover}>
-            <h5>Скрещивание</h5>
-            <div className={css.parents}>
-                <strong>Родители:</strong>
-                <div>
-                    <Individual individual={crossover.parents[0]} index={crossover.parents[0].index} processorRanges={processorRanges} tasks={tasks} />
-                    <Individual individual={crossover.parents[1]} index={crossover.parents[1].index} processorRanges={processorRanges} tasks={tasks} />
+        <Callout title={'Кроссовер'} icon={<Crossover/>}>
+            <div className={css.crossover}>
+                <h5>Скрещивание</h5>
+                <div className={css.parents}>
+                    <strong>Родители:</strong>
+                    <div className='flex row g20'>
+                        <Individual individual={crossover.parents[0]} index={crossover.parents[0].index} processorRanges={processorRanges} tasks={tasks} />
+                        <Individual individual={crossover.parents[1]} index={crossover.parents[1].index} processorRanges={processorRanges} tasks={tasks} />
+                    </div>
+                </div>
+                <div className={css.children}>
+                    <strong>Дети:</strong>
+                    <div className='flex row g20'>
+                        <Individual individual={crossover.children[0]} index={-1} processorRanges={processorRanges} tasks={tasks} />
+                        <Individual individual={crossover.children[1]} index={-1} processorRanges={processorRanges} tasks={tasks} />
+                    </div>
+                </div>
+                <div className={css.selected}>
+                    <strong>Выбранная особь:</strong>
+                    <Individual individual={crossover.selected} index={-1} processorRanges={processorRanges} tasks={tasks} />
                 </div>
             </div>
-            <div className={css.children}>
-                <strong>Дети:</strong>
-                <div>
-                    <Individual individual={crossover.children[0]} index={-1} processorRanges={processorRanges} tasks={tasks} />
-                    <Individual individual={crossover.children[1]} index={-1} processorRanges={processorRanges} tasks={tasks} />
-                </div>
-            </div>
-            <div className={css.selected}>
-                <strong>Выбранная особь:</strong>
-                <Individual individual={crossover.selected} index={-1} processorRanges={processorRanges} tasks={tasks} />
-            </div>
-        </div>
+        </Callout>
     );
 };
 

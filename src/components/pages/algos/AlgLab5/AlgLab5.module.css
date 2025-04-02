@@ -212,7 +212,6 @@ h4 {
 
 .crossover .selected .individual {
     border: 2px solid var(--accent-color);
-    background-color: #f8fff8;
 }
 
 @media (max-width: 1550px) {
