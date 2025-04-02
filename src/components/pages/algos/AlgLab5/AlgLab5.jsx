@@ -31,6 +31,27 @@ const Individual = ({ individual, index, processorRanges, tasks }) => {
         <div className={`${css.individual} ${individual.isBestCandidate ? css.bestCandidate : ''}`}>
             <h4>{`Особь #${index + 1}`}<accent>{maxPhenotype}</accent> {individual.isBestCandidate && <StatusTag className={'h-last'} type={'success'}>Лучшая</StatusTag>}</h4>
             <div className={css.genes}>
+                {/* <table className={`${css.tasktable}`} border="1" cellPadding="5" cellSpacing="0">
+                    <thead>
+                        <tr>
+                            {individual.genes.map((_, index) => (
+                                <th key={index}>{index + 1}</th>
+                            ))}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            {individual.genes.map((_, index) => (
+                                <td key={index}>{tasks[index]}</td>
+                            ))}
+                        </tr>
+                        <tr>
+                            {individual.genes.map((value, index) => (
+                                <td key={index}><accent>{value}</accent></td>
+                            ))}
+                        </tr>
+                    </tbody>
+                </table> */}
                 {individual.genes.map((gene, i) => {
                     const processorIndex = processorRanges.findIndex(range => gene >= range[0] && gene < range[1]);
                     return (
@@ -43,9 +64,12 @@ const Individual = ({ individual, index, processorRanges, tasks }) => {
             </div>
             <div className={css.phenotype}>
                 <strong>Фенотип:</strong>
-                {phenotype.map((time, i) => (
-                    <span key={i}> P{i + 1}: {time}</span>
-                ))}
+                <div className='flex row g5'>
+                   {phenotype.map((time, i) => (
+                    <span key={i}>{time}</span>
+                ))} 
+                </div>
+                
             </div>
             {individual.parents && (
                 <div className={css.parents}>
@@ -76,7 +100,18 @@ const Individual = ({ individual, index, processorRanges, tasks }) => {
 const Generation = ({ generation, processorRanges, tasks, bestPhenotype }) => {
     return (
         <div className={css.generation}>
-            <Pair left={<h3>Поколение {generation.number}</h3>} right={<accent className={css.bestphengenmark}>{bestPhenotype}</accent>}/>
+            <Pair left={<h3>Поколение {generation.number}</h3>} right={<accent className={css.bestphengenmark}>{bestPhenotype}</accent>} />
+
+            {/* Информация о скрещиваниях */}
+            {generation.crossovers &&
+                <div className={css.crossovers}>
+                    {generation.crossovers.map((crossover, i) => (
+                        <CrossoverDetails key={i} crossover={crossover} processorRanges={processorRanges} tasks={tasks} />
+                    ))}
+                </div>
+            }
+
+            {/* Особи текущего поколения */}
             <div className={css.individuals}>
                 {generation.individuals.map((individual, i) => (
                     <Individual
@@ -88,8 +123,35 @@ const Generation = ({ generation, processorRanges, tasks, bestPhenotype }) => {
                     />
                 ))}
             </div>
+
             <div className={css.best}>
                 <strong>Лучший фенотип поколения:</strong> {bestPhenotype}
+            </div>
+        </div>
+    );
+};
+
+const CrossoverDetails = ({ crossover, processorRanges, tasks }) => {
+    return (
+        <div className={css.crossover}>
+            <h5>Скрещивание</h5>
+            <div className={css.parents}>
+                <strong>Родители:</strong>
+                <div>
+                    <Individual individual={crossover.parents[0]} index={crossover.parents[0].index} processorRanges={processorRanges} tasks={tasks} />
+                    <Individual individual={crossover.parents[1]} index={crossover.parents[1].index} processorRanges={processorRanges} tasks={tasks} />
+                </div>
+            </div>
+            <div className={css.children}>
+                <strong>Дети:</strong>
+                <div>
+                    <Individual individual={crossover.children[0]} index={-1} processorRanges={processorRanges} tasks={tasks} />
+                    <Individual individual={crossover.children[1]} index={-1} processorRanges={processorRanges} tasks={tasks} />
+                </div>
+            </div>
+            <div className={css.selected}>
+                <strong>Выбранная особь:</strong>
+                <Individual individual={crossover.selected} index={-1} processorRanges={processorRanges} tasks={tasks} />
             </div>
         </div>
     );
@@ -263,7 +325,7 @@ export const AlgLab5 = () => {
 
         const generations = [{
             number: 1,
-            individuals: initialPopulation.map(ind => ind.phenotype == bestPhenotype ? markBest(ind) : ind),
+            individuals: initialPopulation.map(ind => ind.phenotype == bestPhenotype ? markBest(ind) : ind)
         }];
 
         // Основной цикл генетического алгоритма
@@ -274,8 +336,8 @@ export const AlgLab5 = () => {
             currentGeneration++;
             const lastGeneration = generations[generations.length - 1];
             var newIndividuals = [];
+            const crossovers = []; // Новое поле для хранения информации о скрещиваниях
 
-            // Скрещивание с отбором лучшей особи из родителя и потомков
             for (let i = 0; i < lastGeneration.individuals.length; i++) {
                 const parent1 = { ...lastGeneration.individuals[i], index: i };
                 let j;
@@ -291,25 +353,31 @@ export const AlgLab5 = () => {
                 const mutatedChild1 = mutate(child1, params.mutationProbability);
                 const mutatedChild2 = mutate(child2, params.mutationProbability);
 
-                // Вычисляем фенотипы для всех трех особей (родитель и два потомка)
+                // Вычисляем фенотипы
                 const parentPhenotype = calculatePhenotype(parent1, processorRanges, tasks);
                 const child1Phenotype = calculatePhenotype(mutatedChild1, processorRanges, tasks);
                 const child2Phenotype = calculatePhenotype(mutatedChild2, processorRanges, tasks);
 
-                // Выбираем лучшую особь из трех
+                // Выбираем лучшую особь
                 const candidates = [
                     { individual: parent1, phenotype: parentPhenotype },
                     { individual: mutatedChild1, phenotype: child1Phenotype },
                     { individual: mutatedChild2, phenotype: child2Phenotype },
                 ];
-
                 candidates.sort((a, b) => a.phenotype - b.phenotype);
                 const bestCandidate = candidates[0].individual;
+
+                // Сохраняем информацию о скрещивании
+                crossovers.push({
+                    parents: [parent1, parent2],
+                    children: [mutatedChild1, mutatedChild2],
+                    selected: bestCandidate,
+                });
 
                 // Добавляем лучшую особь в новое поколение
                 newIndividuals.push({
                     ...bestCandidate,
-                    phenotype: candidates[0].phenotype
+                    phenotype: candidates[0].phenotype,
                 });
             }
 
@@ -318,14 +386,13 @@ export const AlgLab5 = () => {
                 ...newIndividuals.map(ind => calculatePhenotype(ind, processorRanges, tasks))
             );
             bestPhenotypes.push(currentBestPhenotype);
-
             newIndividuals = newIndividuals.map(ind => ind.phenotype == currentBestPhenotype ? markBest(ind) : ind);
 
             const newGeneration = {
                 number: currentGeneration,
                 individuals: newIndividuals,
+                crossovers, // Добавляем информацию о скрещиваниях
             };
-
             generations.push(newGeneration);
 
             // Проверка улучшения

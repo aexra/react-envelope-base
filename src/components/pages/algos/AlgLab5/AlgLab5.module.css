@@ -192,6 +192,29 @@ h4 {
     gap: 10px;
 }
 
+.crossover {
+    margin-top: 20px;
+    padding: 15px;
+    background-color: var(--highlight-light);
+    border-radius: 8px;
+    border-left: 4px solid var(--info-color);
+}
+
+.crossover h5 {
+    margin-bottom: 10px;
+}
+
+.crossover .parents,
+.crossover .children,
+.crossover .selected {
+    margin-top: 10px;
+}
+
+.crossover .selected .individual {
+    border: 2px solid var(--accent-color);
+    background-color: #f8fff8;
+}
+
 @media (max-width: 1550px) {
     .controlPanel {
         right: -340px;
