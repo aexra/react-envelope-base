@@ -29,41 +29,92 @@ const Individual = ({ individual, index, processorRanges, tasks }) => {
     }, [individual.genes, processorRanges, tasks]);
     const maxPhenotype = Math.max(...phenotype);
 
+    // Расчет распределения задач по процессорам
+    const processorTaskDistribution = useMemo(() => {
+        const distribution = processorRanges.map(() => []);
+        individual.genes.forEach((gene, taskIndex) => {
+            const processorIndex = processorRanges.findIndex(range => gene >= range[0] && gene < range[1]);
+            if (processorIndex !== -1) {
+                distribution[processorIndex].push({
+                    task: taskIndex + 1,
+                    weight: tasks[taskIndex],
+                });
+            }
+        });
+        return distribution;
+    }, [individual.genes, processorRanges, tasks]);
+
     return (
         <div className={`${css.individual} ${individual.isBestCandidate ? css.bestCandidate : ''}`}>
             <h4>{`Особь #${index + 1}`}<accent>{maxPhenotype}</accent> {individual.isBestCandidate && <StatusTag className={'h-last'} type={'success'}>Лучшая</StatusTag>}</h4>
-            <div className={css.genes}>
-                {/* <table className={`${css.tasktable}`} border="1" cellPadding="5" cellSpacing="0">
-                    <thead>
-                        <tr>
-                            {individual.genes.map((_, index) => (
-                                <th key={index}>{index + 1}</th>
-                            ))}
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            {individual.genes.map((_, index) => (
-                                <td key={index}>{tasks[index]}</td>
-                            ))}
-                        </tr>
-                        <tr>
-                            {individual.genes.map((value, index) => (
-                                <td key={index}><accent>{value}</accent></td>
-                            ))}
-                        </tr>
-                    </tbody>
-                </table> */}
-                {individual.genes.map((gene, i) => {
-                    const processorIndex = processorRanges.findIndex(range => gene >= range[0] && gene < range[1]);
-                    return (
-                        <div key={i} className={css.gene}>
-                            <span>Задача {i + 1} ({tasks[i]}): </span>
-                            <span>{gene} → P{processorIndex + 1}</span>
-                        </div>
-                    );
-                })}
-            </div>
+            <table className={css.geneTable}>
+                <thead>
+                    <tr>
+                        <th>Задача</th>
+                        {tasks.map((task, i) => (
+                            <th key={i}>#{i + 1}</th>
+                        ))}
+                    </tr>
+                </thead>
+                <tbody>
+                    {/* Индексы задач */}
+                    <tr>
+                        <td>Индекс</td>
+                        {tasks.map((task, i) => (
+                            <td key={i}>{i + 1}</td>
+                        ))}
+                    </tr>
+                    {/* Веса задач */}
+                    <tr>
+                        <td>Вес</td>
+                        {tasks.map((task, i) => (
+                            <td key={i}>{task}</td>
+                        ))}
+                    </tr>
+                    {/* Гены особи */}
+                    <tr>
+                        <td>Ген</td>
+                        {individual.genes.map((gene, i) => (
+                            <td key={i}>{gene}</td>
+                        ))}
+                    </tr>
+                </tbody>
+            </table>
+            {/* Таблица распределения задач по процессорам */}
+            <h5>Распределение задач по процессорам</h5>
+            <table className={css.processorDistributionTable}>
+                <thead>
+                    <tr>
+                        {processorRanges.map((_, i) => (
+                            <th key={i}>P{i + 1}</th>
+                        ))}
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        {processorTaskDistribution.map((tasksOnProcessor, i) => (
+                            <td key={i}>
+                                {tasksOnProcessor.length > 0 ? (
+                                    <ul>
+                                        {tasksOnProcessor.map((task, j) => (
+                                            <li key={j}>
+                                                {task.weight}
+                                            </li>
+                                        ))}
+                                    </ul>
+                                ) : (
+                                    'Нет задач'
+                                )}
+                            </td>
+                        ))}
+                    </tr>
+                    <tr>
+                        {phenotype.map((time, i) => (
+                            <td key={i}>{time}</td>
+                        ))}
+                    </tr>
+                </tbody>
+            </table>
             <div className={css.phenotype}>
                 <strong>Фенотип:</strong>
                 <div className='flex row g5'>
@@ -135,7 +186,7 @@ const Generation = ({ generation, processorRanges, tasks, bestPhenotype }) => {
 
 const CrossoverDetails = ({ crossover, processorRanges, tasks }) => {
     return (
-        <Callout title={'Кроссовер'} icon={<Crossover/>}>
+        <Callout title={'Кроссовер'} icon={<Crossover />}>
             <div className={css.crossover}>
                 <h5>Скрещивание</h5>
                 <div className={css.parents}>

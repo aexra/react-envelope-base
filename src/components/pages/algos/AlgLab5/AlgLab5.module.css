@@ -210,6 +210,70 @@ h4 {
     border: 2px solid var(--accent-color);
 }
 
+.geneTable {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+.geneTable th,
+.geneTable td {
+    border: 1px solid var(--font-color);
+    padding: 8px;
+    text-align: center;
+}
+
+.geneTable thead {
+    background-color: var(--highlight-light);
+}
+
+.geneTable th:first-child,
+.geneTable td:first-child {
+    /* background-color: var(--info-color); */
+    font-weight: bold;
+}
+
+.geneTable tr:nth-child(even) {
+    /* background-color: #f9f9f9; */
+}
+
+.geneTable tr:nth-child(odd) {
+    /* background-color: #ffffff; */
+}
+
+.processorDistributionTable {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+}
+
+.processorDistributionTable th,
+.processorDistributionTable td {
+    border: 1px solid var(--font-color);
+    padding: 8px;
+    text-align: center;
+}
+
+.processorDistributionTable thead {
+    background-color: var(--highlight-light);
+}
+
+.processorDistributionTable th:first-child,
+.processorDistributionTable td:first-child {
+    /* background-color: var(--info-color); */
+    font-weight: bold;
+}
+
+.processorDistributionTable ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.processorDistributionTable li {
+    margin: 3px 0;
+}
+
 @media (max-width: 1550px) {
     .controlPanel {
         right: -340px;
