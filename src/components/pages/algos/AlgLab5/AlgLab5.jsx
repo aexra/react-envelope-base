@@ -215,6 +215,13 @@ export const AlgLab5 = () => {
         };
     };
 
+    const markBest = (ind) => {
+        return {
+            ...ind,
+            isBestCandidate: true
+        }
+    };
+
     const handleSolve = useCallback((params) => {
         // Валидация параметров
         if (params.minTaskTime > params.maxTaskTime) {
@@ -238,18 +245,13 @@ export const AlgLab5 = () => {
             genes: Array.from({ length: params.tasksCount }, () => getRandomInt(0, 255)),
             parents: null,
             mutation: null
+        })).map(ind => ({
+            ...ind,
+            phenotype: calculatePhenotype(ind, processorRanges, tasks)
         }));
 
-        // Расчет фенотипов для начальной популяции
-        const initialGeneration = {
-            number: 1,
-            individuals: initialPopulation,
-        };
-
-        const bestPhenotypes = [];
-        const generations = [initialGeneration];
-
         // Расчет лучшего фенотипа для начального поколения
+        const bestPhenotypes = [];
         let bestPhenotype = Infinity;
         initialPopulation.forEach(individual => {
             const phenotype = calculatePhenotype(individual, processorRanges, tasks);
@@ -258,6 +260,11 @@ export const AlgLab5 = () => {
             }
         });
         bestPhenotypes.push(bestPhenotype);
+
+        const generations = [{
+            number: 1,
+            individuals: initialPopulation.map(ind => ind.phenotype == bestPhenotype ? markBest(ind) : ind),
+        }];
 
         // Основной цикл генетического алгоритма
         let generationsWithoutImprovement = 0;
@@ -312,13 +319,6 @@ export const AlgLab5 = () => {
             );
             bestPhenotypes.push(currentBestPhenotype);
 
-            const markBest = (ind) => {
-                // console.log(ind);
-                return {
-                    ...ind,
-                    isBestCandidate: true
-                }
-            };
             newIndividuals = newIndividuals.map(ind => ind.phenotype == currentBestPhenotype ? markBest(ind) : ind);
 
             const newGeneration = {
