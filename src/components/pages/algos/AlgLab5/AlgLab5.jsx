@@ -22,7 +22,7 @@ const Individual = ({ individual, index, processorRanges, tasks, isBestCandidate
         });
         return processorTimes;
     }, [individual.genes, processorRanges, tasks]);
-
+    console.log(isBestCandidate)
     const maxPhenotype = Math.max(...phenotype);
 
     return (
@@ -97,12 +97,12 @@ const Generation = ({ generation, processorRanges, tasks, bestPhenotype }) => {
 export const AlgLab5 = () => {
     const [controls, setControls] = useState({
         seed: 1,
-        minTaskTime: 10,
-        maxTaskTime: 20,
-        processorsCount: 3,
-        tasksCount: 5,
-        populationSize: 3,
-        generationsWithoutImprovement: 3,
+        minTaskTime: 1,
+        maxTaskTime: 200,
+        processorsCount: 5,
+        tasksCount: 7,
+        populationSize: 4,
+        generationsWithoutImprovement: 5,
         crossoverProbability: 1,
         mutationProbability: 1,
     });
@@ -314,6 +314,10 @@ export const AlgLab5 = () => {
                 ...newIndividuals.map(ind => calculatePhenotype(ind, processorRanges, tasks))
             );
             bestPhenotypes.push(currentBestPhenotype);
+
+            // for (i = 0; i < newIndividuals.length; i++) {
+
+            // }
 
             // Проверка улучшения
             if (currentBestPhenotype < bestPhenotype) {
