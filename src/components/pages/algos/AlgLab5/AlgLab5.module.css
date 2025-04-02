@@ -181,3 +181,21 @@
 .tasktable {
     border: 1px solid var(--font-color);
 }
+
+.bestphengenmark {
+    font-weight: bold;
+    margin-left: auto;
+}
+
+@media (max-width: 1550px) {
+    .controlPanel {
+        right: -340px;
+    }
+    .controlPanel.active {
+        right: -1px;
+    }
+    .cpvbtn {
+        right: 28px;
+        top: calc(var(--header-height) + 60px);
+    }
+}

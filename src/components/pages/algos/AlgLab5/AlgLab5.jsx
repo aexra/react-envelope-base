@@ -75,7 +75,7 @@ const Individual = ({ individual, index, processorRanges, tasks }) => {
 const Generation = ({ generation, processorRanges, tasks, bestPhenotype }) => {
     return (
         <div className={css.generation}>
-            <h3>Поколение {generation.number}</h3>
+            <Pair left={<h3>Поколение {generation.number}</h3>} right={<accent className={css.bestphengenmark}>{bestPhenotype}</accent>}/>
             <div className={css.individuals}>
                 {generation.individuals.map((individual, i) => (
                     <Individual
