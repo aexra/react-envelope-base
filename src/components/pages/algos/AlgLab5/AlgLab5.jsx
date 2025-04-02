@@ -2,7 +2,7 @@ import React, { useState, useCallback, useMemo } from 'react';
 import css from './AlgLab5.module.css';
 import { ControlPanel } from './ControlPanel';
 import { PageBase } from '../../../../react-envelope/components/pages/base/PageBase/PageBase';
-import { Close, Configure, Crossover } from '../../../../react-envelope/components/dummies/Icons';
+import { Close, Configure, Crossover, Dna } from '../../../../react-envelope/components/dummies/Icons';
 import { Headline } from '../../../../react-envelope/components/ui/labels/Headline/Headline';
 import { Pair } from '../../../../react-envelope/components/layouts/Pair/Pair';
 import { StatusTag } from '../../../../react-envelope/components/ui/labels/StatusTag/StatusTag';
@@ -165,35 +165,37 @@ const Individual = ({ individual, index, processorRanges, tasks }) => {
 // Компонент для отображения поколения
 const Generation = ({ generation, processorRanges, tasks, bestPhenotype }) => {
     return (
-        <div className={css.generation}>
-            <Pair left={<h3>Поколение {generation.number}</h3>} right={<accent className={css.bestphengenmark}>{bestPhenotype}</accent>} />
+        <Callout type='grey' title={<h3>Поколение {generation.number}</h3>} icon={<Dna/>}>
+            <div className={css.generation}>
+                <Pair left={<h3>Поколение {generation.number}</h3>} right={<accent className={css.bestphengenmark}>{bestPhenotype}</accent>} />
 
-            {/* Информация о скрещиваниях */}
-            {generation.crossovers &&
-                <div className={`flex col g5 ${css.crossover}`}>
-                    {generation.crossovers.map((crossover, i) => (
-                        <CrossoverDetails key={i} crossover={crossover} processorRanges={processorRanges} tasks={tasks} />
+                {/* Информация о скрещиваниях */}
+                {generation.crossovers &&
+                    <div className={`flex col g5 ${css.crossover}`}>
+                        {generation.crossovers.map((crossover, i) => (
+                            <CrossoverDetails key={i} crossover={crossover} processorRanges={processorRanges} tasks={tasks} />
+                        ))}
+                    </div>
+                }
+
+                {/* Особи текущего поколения */}
+                <div className={css.individuals}>
+                    {generation.individuals.map((individual, i) => (
+                        <Individual
+                            key={i}
+                            individual={individual}
+                            index={i}
+                            processorRanges={processorRanges}
+                            tasks={tasks}
+                        />
                     ))}
                 </div>
-            }
 
-            {/* Особи текущего поколения */}
-            <div className={css.individuals}>
-                {generation.individuals.map((individual, i) => (
-                    <Individual
-                        key={i}
-                        individual={individual}
-                        index={i}
-                        processorRanges={processorRanges}
-                        tasks={tasks}
-                    />
-                ))}
+                <div className={css.best}>
+                    <strong>Лучший фенотип поколения:</strong> {bestPhenotype}
+                </div>
             </div>
-
-            <div className={css.best}>
-                <strong>Лучший фенотип поколения:</strong> {bestPhenotype}
-            </div>
-        </div>
+        </Callout>
     );
 };
 
@@ -304,25 +306,25 @@ export const AlgLab5 = () => {
         if (Math.random() > mutationProbability) {
             return individual;
         }
-    
+
         // Сохраняем исходное состояние генов
         const beforeGenes = [...individual.genes];
-    
+
         // Выполняем мутацию
         const geneIndex = getRandomInt(0, individual.genes.length - 1);
         const bitIndex = getRandomInt(0, 7);
         const before = individual.genes[geneIndex];
         const mask = 1 << bitIndex;
         const after = before ^ mask;
-    
+
         const beforeBinary = before.toString(2).padStart(8, '0');
         const afterBinary = after.toString(2).padStart(8, '0');
-    
+
         let beforeBits = beforeBinary.split('');
         let afterBits = afterBinary.split('');
         beforeBits[7 - bitIndex] = `<span class="${css.changedBit}">${beforeBits[7 - bitIndex]}</span>`;
         afterBits[7 - bitIndex] = `<span class="${css.changedBit}">${afterBits[7 - bitIndex]}</span>`;
-    
+
         return {
             ...individual,
             genes: [
