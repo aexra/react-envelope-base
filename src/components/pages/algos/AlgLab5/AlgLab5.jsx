@@ -142,6 +142,19 @@ const Individual = ({ individual, index, processorRanges, tasks }) => {
                             <span dangerouslySetInnerHTML={{ __html: individual.mutation.afterBits }} />
                         </div>
                         <div>Изменен бит #{individual.mutation.bitIndex}</div>
+                        <div>
+                            Фенотип до мутации: <accent>{individual.mutation.beforePhenotype}</accent>
+                        </div>
+                        <div>
+                            Гены до мутации:
+                            <div className={`flex row g5`}>
+                                {individual.mutation.beforeGenes.map((gene, i) => (
+                                    <div key={i}>
+                                        {gene}
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
                     </div>
                 </div>
             )}
@@ -291,27 +304,25 @@ export const AlgLab5 = () => {
         if (Math.random() > mutationProbability) {
             return individual;
         }
-
+    
+        // Сохраняем исходное состояние генов
+        const beforeGenes = [...individual.genes];
+    
+        // Выполняем мутацию
         const geneIndex = getRandomInt(0, individual.genes.length - 1);
         const bitIndex = getRandomInt(0, 7);
         const before = individual.genes[geneIndex];
-
-        // Конвертируем в двоичное представление с ведущими нулями
-        const beforeBinary = before.toString(2).padStart(8, '0');
-
         const mask = 1 << bitIndex;
         const after = before ^ mask;
-
-        // Конвертируем в двоичное представление с ведущими нулями
+    
+        const beforeBinary = before.toString(2).padStart(8, '0');
         const afterBinary = after.toString(2).padStart(8, '0');
-
-        // Подсветим измененный бит
+    
         let beforeBits = beforeBinary.split('');
         let afterBits = afterBinary.split('');
-
         beforeBits[7 - bitIndex] = `<span class="${css.changedBit}">${beforeBits[7 - bitIndex]}</span>`;
         afterBits[7 - bitIndex] = `<span class="${css.changedBit}">${afterBits[7 - bitIndex]}</span>`;
-
+    
         return {
             ...individual,
             genes: [
@@ -328,6 +339,7 @@ export const AlgLab5 = () => {
                 bitIndex: 7 - bitIndex, // Нумерация битов справа налево (0-7)
                 beforeBits: beforeBits.join(''),
                 afterBits: afterBits.join(''),
+                beforeGenes, // Сохраняем исходные гены
             },
         };
     };
@@ -405,8 +417,8 @@ export const AlgLab5 = () => {
                 const [child1, child2] = crossover(parent1, parent2, params.crossoverProbability);
 
                 // Мутация
-                const mutatedChild1 = mutate(child1, params.mutationProbability);
-                const mutatedChild2 = mutate(child2, params.mutationProbability);
+                const mutatedChild1 = mutate(child1, params.mutationProbability, processorRanges, tasks);
+                const mutatedChild2 = mutate(child2, params.mutationProbability, processorRanges, tasks);
 
                 // Вычисляем фенотипы
                 const parentPhenotype = calculatePhenotype(parent1, processorRanges, tasks);
