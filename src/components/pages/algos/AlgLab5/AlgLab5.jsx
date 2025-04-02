@@ -302,29 +302,30 @@ export const AlgLab5 = () => {
         return [child1, child2];
     };
 
-    const mutate = (individual, mutationProbability) => {
+    const mutate = (individual, mutationProbability, processorRanges, tasks) => {
         if (Math.random() > mutationProbability) {
             return individual;
         }
-
+    
         // Сохраняем исходное состояние генов
         const beforeGenes = [...individual.genes];
-
+        const beforePhenotype = calculatePhenotype({ genes: beforeGenes }, processorRanges, tasks);
+    
         // Выполняем мутацию
         const geneIndex = getRandomInt(0, individual.genes.length - 1);
         const bitIndex = getRandomInt(0, 7);
         const before = individual.genes[geneIndex];
         const mask = 1 << bitIndex;
         const after = before ^ mask;
-
+    
         const beforeBinary = before.toString(2).padStart(8, '0');
         const afterBinary = after.toString(2).padStart(8, '0');
-
+    
         let beforeBits = beforeBinary.split('');
         let afterBits = afterBinary.split('');
         beforeBits[7 - bitIndex] = `<span class="${css.changedBit}">${beforeBits[7 - bitIndex]}</span>`;
         afterBits[7 - bitIndex] = `<span class="${css.changedBit}">${afterBits[7 - bitIndex]}</span>`;
-
+    
         return {
             ...individual,
             genes: [
@@ -342,6 +343,7 @@ export const AlgLab5 = () => {
                 beforeBits: beforeBits.join(''),
                 afterBits: afterBits.join(''),
                 beforeGenes, // Сохраняем исходные гены
+                beforePhenotype, // Сохраняем фенотип до мутации
             },
         };
     };
