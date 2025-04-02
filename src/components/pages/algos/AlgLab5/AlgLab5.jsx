@@ -22,7 +22,6 @@ const Individual = ({ individual, index, processorRanges, tasks, isBestCandidate
         });
         return processorTimes;
     }, [individual.genes, processorRanges, tasks]);
-    console.log(isBestCandidate)
     const maxPhenotype = Math.max(...phenotype);
 
     return (
@@ -265,7 +264,7 @@ export const AlgLab5 = () => {
         while (generationsWithoutImprovement < params.generationsWithoutImprovement) {
             currentGeneration++;
             const lastGeneration = generations[generations.length - 1];
-            const newIndividuals = [];
+            var newIndividuals = [];
 
             // Скрещивание с отбором лучшей особи из родителя и потомков
             for (let i = 0; i < lastGeneration.individuals.length; i++) {
@@ -299,15 +298,11 @@ export const AlgLab5 = () => {
                 const bestCandidate = candidates[0].individual;
 
                 // Добавляем лучшую особь в новое поколение
-                newIndividuals.push(bestCandidate);
+                newIndividuals.push({
+                    ...bestCandidate,
+                    phenotype: candidates[0].phenotype
+                });
             }
-
-            const newGeneration = {
-                number: currentGeneration,
-                individuals: newIndividuals,
-            };
-
-            generations.push(newGeneration);
 
             // Находим лучший фенотип в новом поколении
             const currentBestPhenotype = Math.min(
@@ -315,9 +310,21 @@ export const AlgLab5 = () => {
             );
             bestPhenotypes.push(currentBestPhenotype);
 
-            // for (i = 0; i < newIndividuals.length; i++) {
+            const markBest = (ind) => {
+                // console.log(ind);
+                return {
+                    ...ind,
+                    isBestCandidate: true
+                }
+            };
+            newIndividuals = newIndividuals.map(ind => ind.phenotype == currentBestPhenotype ? markBest(ind) : ind);
 
-            // }
+            const newGeneration = {
+                number: currentGeneration,
+                individuals: newIndividuals,
+            };
+
+            generations.push(newGeneration);
 
             // Проверка улучшения
             if (currentBestPhenotype < bestPhenotype) {
@@ -335,6 +342,13 @@ export const AlgLab5 = () => {
             bestPhenotypes,
             isSolving: false,
             currentStep: 0,
+        });
+
+        console.log({
+            tasks,
+            processorRanges,
+            generations,
+            bestPhenotypes
         });
     }, []);
 

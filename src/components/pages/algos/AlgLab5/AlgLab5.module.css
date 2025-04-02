@@ -137,7 +137,7 @@
 
 .bestCandidate {
     border: 2px solid #4CAF50;
-    background-color: #f8fff8;
+    /* background-color: #f8fff8; */
 }
 
 .mutationDetails {
