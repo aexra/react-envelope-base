@@ -13,7 +13,7 @@ const getRandomInt = (min, max) => {
 };
 
 // Компонент для отображения особи
-const Individual = ({ individual, index, processorRanges, tasks, isBestCandidate }) => {
+const Individual = ({ individual, index, processorRanges, tasks }) => {
     const phenotype = useMemo(() => {
         const processorTimes = new Array(processorRanges.length).fill(0);
         individual.genes.forEach((gene, taskIndex) => {
@@ -27,8 +27,8 @@ const Individual = ({ individual, index, processorRanges, tasks, isBestCandidate
     const maxPhenotype = Math.max(...phenotype);
 
     return (
-        <div className={`${css.individual} ${isBestCandidate ? css.bestCandidate : ''}`}>
-            <h4>Особь #{index + 1} (Макс: {maxPhenotype}) {isBestCandidate && '← Лучшая'}</h4>
+        <div className={`${css.individual} ${individual.isBestCandidate ? css.bestCandidate : ''}`}>
+            <h4>Особь #{index + 1} (Макс: {maxPhenotype}) {individual.isBestCandidate && '← Лучшая'}</h4>
             <div className={css.genes}>
                 {individual.genes.map((gene, i) => {
                     const processorIndex = processorRanges.findIndex(range => gene >= range[0] && gene < range[1]);
@@ -84,7 +84,6 @@ const Generation = ({ generation, processorRanges, tasks, bestPhenotype }) => {
                         index={i}
                         processorRanges={processorRanges}
                         tasks={tasks}
-                        isBestCandidate={individual.isBestCandidate}
                     />
                 ))}
             </div>
@@ -385,7 +384,7 @@ export const AlgLab5 = () => {
                         <Headline>Исходные данные</Headline>
 
                         {state.tasks.length > 0 && (
-                            <div className={`${css.tasks} ${css.subsection}`}>
+                            <div className={`${css.tasks} ${css.section}`}>
                                 <h3>Сгенерированные задачи</h3>
                                 {/* <div className={css.taskList}>
                                     {state.tasks.map((task, i) => (
@@ -412,7 +411,7 @@ export const AlgLab5 = () => {
                         )}
 
                         {state.processorRanges.length > 0 && (
-                            <div className={`${css.processors} ${css.subsection}`}>
+                            <div className={`${css.processors} ${css.section}`}>
                                 <h3>Интервалы</h3>
                                 <div className={`${css.processorRanges} flex col g5`}>
                                     {state.processorRanges.map((range, i) => (
@@ -430,6 +429,13 @@ export const AlgLab5 = () => {
                                 {` → `}
                                 {<accent>{state.bestPhenotypes.findLast(_ => true)}</accent>}
                             </span>} />
+
+                            <h3>Лучшая особь</h3>
+                            <Individual
+                                index={''}
+                                individual={state.generations.findLast(_ => true).individuals.reduce((m, c) => c.phenotype < m.phenotype ? c : m)}
+                                processorRanges={state.processorRanges}
+                                tasks={state.tasks} />
                         </div>
 
                         {state.generations.length > 0 && (
