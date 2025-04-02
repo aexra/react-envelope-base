@@ -29,6 +29,18 @@
     box-shadow: 0 -5px 5px rgba(0, 0, 0, 0.5), 5px 0 5px rgba(0, 0, 0, 0.5);
 }
 
+.section {
+    background-color: var(--body-bk-color);
+    border-radius: 10px;
+    padding: 20px;
+}
+
+.subsection {
+    background-color: var(--highlight-light);
+    border-radius: 5px;
+    padding: 10px;
+}
+
 .controlPanel.active {
     right: 319px;
 }

@@ -1,8 +1,10 @@
 import React, { useState, useCallback, useMemo } from 'react';
-import styles from './AlgLab5.module.css';
+import css from './AlgLab5.module.css';
 import { ControlPanel } from './ControlPanel';
 import { PageBase } from '../../../../react-envelope/components/pages/base/PageBase/PageBase';
 import { Close, Configure } from '../../../../react-envelope/components/dummies/Icons';
+import { Headline } from '../../../../react-envelope/components/ui/labels/Headline/Headline';
+import { Pair } from '../../../../react-envelope/components/layouts/Pair/Pair';
 
 const getRandomInt = (min, max) => {
     min = Math.ceil(min);
@@ -25,37 +27,37 @@ const Individual = ({ individual, index, processorRanges, tasks, isBestCandidate
     const maxPhenotype = Math.max(...phenotype);
 
     return (
-        <div className={`${styles.individual} ${isBestCandidate ? styles.bestCandidate : ''}`}>
+        <div className={`${css.individual} ${isBestCandidate ? css.bestCandidate : ''}`}>
             <h4>Особь #{index + 1} (Макс: {maxPhenotype}) {isBestCandidate && '← Лучшая'}</h4>
-            <div className={styles.genes}>
+            <div className={css.genes}>
                 {individual.genes.map((gene, i) => {
                     const processorIndex = processorRanges.findIndex(range => gene >= range[0] && gene < range[1]);
                     return (
-                        <div key={i} className={styles.gene}>
+                        <div key={i} className={css.gene}>
                             <span>Задача {i + 1} ({tasks[i]}): </span>
                             <span>{gene} → P{processorIndex + 1}</span>
                         </div>
                     );
                 })}
             </div>
-            <div className={styles.phenotype}>
+            <div className={css.phenotype}>
                 <strong>Фенотип:</strong>
                 {phenotype.map((time, i) => (
                     <span key={i}> P{i + 1}: {time}</span>
                 ))}
             </div>
             {individual.parents && (
-                <div className={styles.parents}>
+                <div className={css.parents}>
                     <strong>Родители:</strong> {individual.parents.join(' и ')}
                 </div>
             )}
             {individual.mutation && (
-                <div className={styles.mutation}>
+                <div className={css.mutation}>
                     <strong>Мутация:</strong>
-                    <div className={styles.mutationDetails}>
+                    <div className={css.mutationDetails}>
                         <div>Ген {individual.mutation.index}:</div>
                         <div>Десятичное: {individual.mutation.before} → {individual.mutation.after}</div>
-                        <div className={styles.binaryCode}>
+                        <div className={css.binaryCode}>
                             Двоичное:
                             <span dangerouslySetInnerHTML={{ __html: individual.mutation.beforeBits }} />
                             →
@@ -72,9 +74,9 @@ const Individual = ({ individual, index, processorRanges, tasks, isBestCandidate
 // Компонент для отображения поколения
 const Generation = ({ generation, processorRanges, tasks, bestPhenotype }) => {
     return (
-        <div className={styles.generation}>
+        <div className={css.generation}>
             <h3>Поколение {generation.number}</h3>
-            <div className={styles.individuals}>
+            <div className={css.individuals}>
                 {generation.individuals.map((individual, i) => (
                     <Individual
                         key={i}
@@ -86,7 +88,7 @@ const Generation = ({ generation, processorRanges, tasks, bestPhenotype }) => {
                     />
                 ))}
             </div>
-            <div className={styles.best}>
+            <div className={css.best}>
                 <strong>Лучший фенотип поколения:</strong> {bestPhenotype}
             </div>
         </div>
@@ -147,12 +149,12 @@ export const AlgLab5 = () => {
 
     const crossover = (parent1, parent2, crossoverProbability) => {
         if (Math.random() > crossoverProbability) {
-          return [
-            { ...parent1, parents: [`Особь ${parent1.index + 1}`] },
-            { ...parent2, parents: [`Особь ${parent2.index + 1}`] }
-          ];
+            return [
+                { ...parent1, parents: [`Особь ${parent1.index + 1}`] },
+                { ...parent2, parents: [`Особь ${parent2.index + 1}`] }
+            ];
         }
-      
+
         const crossoverPoint = getRandomInt(1, parent1.genes.length - 1);
         const child1 = {
             genes: [...parent1.genes.slice(0, crossoverPoint), ...parent2.genes.slice(crossoverPoint)],
@@ -170,9 +172,9 @@ export const AlgLab5 = () => {
 
     const mutate = (individual, mutationProbability) => {
         if (Math.random() > mutationProbability) {
-          return individual;
+            return individual;
         }
-      
+
         const geneIndex = getRandomInt(0, individual.genes.length - 1);
         const bitIndex = getRandomInt(0, 7);
         const before = individual.genes[geneIndex];
@@ -190,8 +192,8 @@ export const AlgLab5 = () => {
         let beforeBits = beforeBinary.split('');
         let afterBits = afterBinary.split('');
 
-        beforeBits[7 - bitIndex] = `<span class="${styles.changedBit}">${beforeBits[7 - bitIndex]}</span>`;
-        afterBits[7 - bitIndex] = `<span class="${styles.changedBit}">${afterBits[7 - bitIndex]}</span>`;
+        beforeBits[7 - bitIndex] = `<span class="${css.changedBit}">${beforeBits[7 - bitIndex]}</span>`;
+        afterBits[7 - bitIndex] = `<span class="${css.changedBit}">${afterBits[7 - bitIndex]}</span>`;
 
         return {
             ...individual,
@@ -216,26 +218,26 @@ export const AlgLab5 = () => {
     const handleSolve = useCallback((params) => {
         // Валидация параметров
         if (params.minTaskTime > params.maxTaskTime) {
-          alert("Минимальное время не может быть больше максимального");
-          return;
+            alert("Минимальное время не может быть больше максимального");
+            return;
         }
-      
+
         setControls(params);
         setState(prev => ({ ...prev, isSolving: true }));
-      
+
         // Генерация задач
-        const tasks = Array.from({ length: params.tasksCount }, () => 
-          getRandomInt(params.minTaskTime, params.maxTaskTime)
+        const tasks = Array.from({ length: params.tasksCount }, () =>
+            getRandomInt(params.minTaskTime, params.maxTaskTime)
         );
-      
+
         // Расчет интервалов процессоров (без изменений)
         const processorRanges = calculateProcessorRanges(params.processorsCount);
-      
+
         // Генерация начальной популяции
         const initialPopulation = Array.from({ length: params.populationSize }, () => ({
-          genes: Array.from({ length: params.tasksCount }, () => getRandomInt(0, 255)),
-          parents: null,
-          mutation: null
+            genes: Array.from({ length: params.tasksCount }, () => getRandomInt(0, 255)),
+            parents: null,
+            mutation: null
         }));
 
         // Расчет фенотипов для начальной популяции
@@ -365,58 +367,71 @@ export const AlgLab5 = () => {
 
     return (
         <PageBase>
-            <div className={styles.container}>
+            <div className={css.container}>
                 <ControlPanel
                     initialValues={controls}
                     onSolve={handleSolve}
                     onClear={handleClear}
-                    className={cpv && styles.active}
+                    className={cpv && css.active}
                     isSolving={state.isSolving}
                 />
                 {cpv ? (
-                    <Close className={`icon-m pointer ${styles.cpvbtn} fixed`} onClick={() => setCPV(false)} />
+                    <Close className={`icon-m pointer ${css.cpvbtn} fixed`} onClick={() => setCPV(false)} />
                 ) : (
-                    <Configure className={`icon-m pointer ${styles.cpvbtn} fixed`} onClick={() => setCPV(true)} />
+                    <Configure className={`icon-m pointer ${css.cpvbtn} fixed`} onClick={() => setCPV(true)} />
                 )}
+                {state.tasks.length > 0 &&
+                    <div className={css.results}>
+                        <Headline>Исходные данные</Headline>
 
-                <div className={styles.results}>
-                    {state.tasks.length > 0 && (
-                        <div className={styles.tasks}>
-                            <h3>Сгенерированные задачи</h3>
-                            <div className={styles.taskList}>
-                                {state.tasks.map((task, i) => (
-                                    <div key={i}>Задача {i + 1}: {task}</div>
+                        {state.tasks.length > 0 && (
+                            <div className={css.tasks}>
+                                <h3>Сгенерированные задачи</h3>
+                                <div className={css.taskList}>
+                                    {state.tasks.map((task, i) => (
+                                        <div key={i}>Задача {i + 1}: {task}</div>
+                                    ))}
+                                </div>
+                            </div>
+                        )}
+
+                        {state.processorRanges.length > 0 && (
+                            <div className={css.processors}>
+                                <h3>Интервалы процессоров</h3>
+                                <div className={css.processorRanges}>
+                                    {state.processorRanges.map((range, i) => (
+                                        <div key={i}>P{i + 1}: [{range[0]}, {range[1]}]</div>
+                                    ))}
+                                </div>
+                            </div>
+                        )}
+
+                        <Headline>Результат</Headline>
+                        <div className={`${css.section}`}>
+                            <Pair left={'Поколений: '} right={<accent className='accent-color'>{state.generations.length}</accent>} />
+                            <Pair left={'Лучший фенотип: '} right={<span>
+                                {<accent>{state.bestPhenotypes[0]}</accent>}
+                                {` → `}
+                                {<accent>{state.bestPhenotypes.findLast(_ => true)}</accent>}
+                            </span>} />
+                        </div>
+
+                        {state.generations.length > 0 && (
+                            <div className={css.generations}>
+                                <Headline>Ход работы</Headline>
+                                {state.generations.map((generation, i) => (
+                                    <Generation
+                                        key={i}
+                                        generation={generation}
+                                        processorRanges={state.processorRanges}
+                                        tasks={state.tasks}
+                                        bestPhenotype={state.bestPhenotypes[i]}
+                                    />
                                 ))}
                             </div>
-                        </div>
-                    )}
-
-                    {state.processorRanges.length > 0 && (
-                        <div className={styles.processors}>
-                            <h3>Интервалы процессоров</h3>
-                            <div className={styles.processorRanges}>
-                                {state.processorRanges.map((range, i) => (
-                                    <div key={i}>P{i + 1}: [{range[0]}, {range[1]})</div>
-                                ))}
-                            </div>
-                        </div>
-                    )}
-
-                    {state.generations.length > 0 && (
-                        <div className={styles.generations}>
-                            <h2>Генетический алгоритм</h2>
-                            {state.generations.map((generation, i) => (
-                                <Generation
-                                    key={i}
-                                    generation={generation}
-                                    processorRanges={state.processorRanges}
-                                    tasks={state.tasks}
-                                    bestPhenotype={state.bestPhenotypes[i]}
-                                />
-                            ))}
-                        </div>
-                    )}
-                </div>
+                        )}
+                    </div>
+                }
             </div>
         </PageBase>
     );
