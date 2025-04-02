@@ -4,22 +4,11 @@ import { ControlPanel } from './ControlPanel';
 import { PageBase } from '../../../../react-envelope/components/pages/base/PageBase/PageBase';
 import { Close, Configure } from '../../../../react-envelope/components/dummies/Icons';
 
-// Вспомогательная функция для генерации случайных чисел с seed
-class SeededRandom {
-    constructor(seed) {
-        this.seed = seed % 2147483647;
-        if (this.seed <= 0) this.seed += 2147483646;
-    }
-
-    next() {
-        this.seed = (this.seed * 16807) % 2147483647;
-        return (this.seed - 1) / 2147483646;
-    }
-
-    nextInt(min, max) {
-        return Math.floor(this.next() * (max - min + 1)) + min;
-    }
-}
+const getRandomInt = (min, max) => {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+};
 
 // Компонент для отображения особи
 const Individual = ({ individual, index, processorRanges, tasks, isBestCandidate }) => {
@@ -157,15 +146,15 @@ export const AlgLab5 = () => {
         return Math.max(...processorTimes);
     };
 
-    const crossover = (parent1, parent2, random, crossoverProbability) => {
-        if (random.next() > crossoverProbability) {
-            return [
-                { ...parent1, parents: [`Особь ${parent1.index + 1}`] },
-                { ...parent2, parents: [`Особь ${parent2.index + 1}`] }
-            ];
+    const crossover = (parent1, parent2, crossoverProbability) => {
+        if (Math.random() > crossoverProbability) {
+          return [
+            { ...parent1, parents: [`Особь ${parent1.index + 1}`] },
+            { ...parent2, parents: [`Особь ${parent2.index + 1}`] }
+          ];
         }
-
-        const crossoverPoint = random.nextInt(1, parent1.genes.length - 1);
+      
+        const crossoverPoint = getRandomInt(1, parent1.genes.length - 1);
         const child1 = {
             genes: [...parent1.genes.slice(0, crossoverPoint), ...parent2.genes.slice(crossoverPoint)],
             parents: [`Особь ${parent1.index + 1}`, `Особь ${parent2.index + 1}`],
@@ -180,13 +169,13 @@ export const AlgLab5 = () => {
         return [child1, child2];
     };
 
-    const mutate = (individual, random, mutationProbability) => {
-        if (random.next() > mutationProbability) {
-            return individual;
+    const mutate = (individual, mutationProbability) => {
+        if (Math.random() > mutationProbability) {
+          return individual;
         }
-
-        const geneIndex = random.nextInt(0, individual.genes.length - 1);
-        const bitIndex = random.nextInt(0, 7);
+      
+        const geneIndex = getRandomInt(0, individual.genes.length - 1);
+        const bitIndex = getRandomInt(0, 7);
         const before = individual.genes[geneIndex];
 
         // Конвертируем в двоичное представление с ведущими нулями
@@ -226,21 +215,29 @@ export const AlgLab5 = () => {
     };
 
     const handleSolve = useCallback((params) => {
+        // Валидация параметров
+        if (params.minTaskTime > params.maxTaskTime) {
+          alert("Минимальное время не может быть больше максимального");
+          return;
+        }
+      
         setControls(params);
         setState(prev => ({ ...prev, isSolving: true }));
-
-        const random = new SeededRandom(params.seed);
-
+      
         // Генерация задач
-        const tasks = Array.from({ length: params.tasksCount }, () =>
-            random.nextInt(params.minTaskTime, params.maxTaskTime)
+        const tasks = Array.from({ length: params.tasksCount }, () => 
+          getRandomInt(params.minTaskTime, params.maxTaskTime)
         );
-
-        // Расчет интервалов процессоров
+      
+        // Расчет интервалов процессоров (без изменений)
         const processorRanges = calculateProcessorRanges(params.processorsCount);
-
+      
         // Генерация начальной популяции
-        const initialPopulation = generateInitialPopulation(random, params.populationSize, params.tasksCount);
+        const initialPopulation = Array.from({ length: params.populationSize }, () => ({
+          genes: Array.from({ length: params.tasksCount }, () => getRandomInt(0, 255)),
+          parents: null,
+          mutation: null
+        }));
 
         // Расчет фенотипов для начальной популяции
         const initialGeneration = {
@@ -275,16 +272,16 @@ export const AlgLab5 = () => {
                 const parent1 = { ...lastGeneration.individuals[i], index: i };
                 let j;
                 do {
-                    j = random.nextInt(0, lastGeneration.individuals.length - 1);
+                    j = getRandomInt(0, lastGeneration.individuals.length - 1);
                 } while (j === i);
                 const parent2 = { ...lastGeneration.individuals[j], index: j };
 
                 // Скрещивание
-                const [child1, child2] = crossover(parent1, parent2, random, params.crossoverProbability);
+                const [child1, child2] = crossover(parent1, parent2, params.crossoverProbability);
 
                 // Мутация
-                const mutatedChild1 = mutate(child1, random, params.mutationProbability);
-                const mutatedChild2 = mutate(child2, random, params.mutationProbability);
+                const mutatedChild1 = mutate(child1, params.mutationProbability);
+                const mutatedChild2 = mutate(child2, params.mutationProbability);
 
                 // Вычисляем фенотипы для всех трех особей (родитель и два потомка)
                 const parentPhenotype = calculatePhenotype(parent1, processorRanges, tasks);
