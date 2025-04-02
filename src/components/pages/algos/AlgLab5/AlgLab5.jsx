@@ -165,9 +165,9 @@ const Individual = ({ individual, index, processorRanges, tasks }) => {
 // Компонент для отображения поколения
 const Generation = ({ generation, processorRanges, tasks, bestPhenotype }) => {
     return (
-        <Callout type='grey' title={<h3>Поколение {generation.number}</h3>} icon={<Dna/>}>
+        // <Callout type='grey' title={<h3>Поколение {generation.number}</h3>} icon={<Dna/>}>
             <div className={css.generation}>
-                <Pair left={<h3>Поколение {generation.number}</h3>} right={<accent className={css.bestphengenmark}>{bestPhenotype}</accent>} />
+                <Pair left={<h3 className='flex row center g10'><Dna className='icon-m'/> Поколение {generation.number}</h3>} right={<accent className={css.bestphengenmark}>{bestPhenotype}</accent>} />
 
                 {/* Информация о скрещиваниях */}
                 {generation.crossovers &&
@@ -195,7 +195,7 @@ const Generation = ({ generation, processorRanges, tasks, bestPhenotype }) => {
                     <strong>Лучший фенотип поколения:</strong> {bestPhenotype}
                 </div>
             </div>
-        </Callout>
+        // </Callout>
     );
 };
 
