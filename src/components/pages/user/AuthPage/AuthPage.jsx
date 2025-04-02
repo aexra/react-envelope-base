@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { User } from "../../../../react-envelope/components/dummies/Icons";
+import { Home, User } from "../../../../react-envelope/components/dummies/Icons";
 import { IconHeader } from "../../../../react-envelope/components/pages/base/IconHeader";
 import { PageBase } from "../../../../react-envelope/components/pages/base/PageBase/PageBase";
 import { AuthCard } from "../../../../react-envelope/components/widgets/user/AuthCard/AuthCard";
@@ -7,6 +7,7 @@ import { useAuth } from "../../../../react-envelope/hooks/useAuth";
 import css from './AuthPage.module.css';
 import toast from "react-hot-toast";
 import { useLocation, useNavigate } from "react-router-dom";
+import ExButton from "../../../../react-envelope/components/ui/buttons/ExButton/ExButton";
 
 export const AuthPage = () => {
     const navigate = useNavigate();
@@ -67,12 +68,16 @@ export const AuthPage = () => {
     return (
         <PageBase header={<IconHeader text={'Личный кабинет'} icon={<User/>}/>}
                   less
-                  fullSize>
-                <AuthCard className={'center-self'}
-                          onLogin={handleLogin}
-                          onRegister={handleRegister}
-                          selectedFrame={frame}
-                          onSelect={setFrame}/>
+                  fullSize
+                  contentClassName={css.body}>
+                <div className={`${css.card}`}>
+                    <AuthCard className={'center-self'}
+                            onLogin={handleLogin}
+                            onRegister={handleRegister}
+                            selectedFrame={frame}
+                            onSelect={setFrame}/>
+                    <ExButton onClick={() => navigate('/')} gap="10px" className={`${css.home} r10`} leftIcon={<Home className='icon-m'/>}>На главную</ExButton>
+                </div>
         </PageBase>
     );
 };
