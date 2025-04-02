@@ -385,22 +385,38 @@ export const AlgLab5 = () => {
                         <Headline>Исходные данные</Headline>
 
                         {state.tasks.length > 0 && (
-                            <div className={css.tasks}>
+                            <div className={`${css.tasks} ${css.subsection}`}>
                                 <h3>Сгенерированные задачи</h3>
-                                <div className={css.taskList}>
+                                {/* <div className={css.taskList}>
                                     {state.tasks.map((task, i) => (
                                         <div key={i}>Задача {i + 1}: {task}</div>
                                     ))}
-                                </div>
+                                </div> */}
+                                <table className={`${css.tasktable}`} border="1" cellPadding="5" cellSpacing="0">
+                                    <thead>
+                                        <tr>
+                                            {state.tasks.map((_, index) => (
+                                                <th key={index}>{index + 1}</th>
+                                            ))}
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            {state.tasks.map((value, index) => (
+                                                <td key={index}><accent>{value}</accent></td>
+                                            ))}
+                                        </tr>
+                                    </tbody>
+                                </table>
                             </div>
                         )}
 
                         {state.processorRanges.length > 0 && (
-                            <div className={css.processors}>
-                                <h3>Интервалы процессоров</h3>
-                                <div className={css.processorRanges}>
+                            <div className={`${css.processors} ${css.subsection}`}>
+                                <h3>Интервалы</h3>
+                                <div className={`${css.processorRanges} flex col g5`}>
                                     {state.processorRanges.map((range, i) => (
-                                        <div key={i}>P{i + 1}: [{range[0]}, {range[1]}]</div>
+                                        <div key={i}>P{i + 1}: <accent>[{range[0]}, {range[1]}]</accent></div>
                                     ))}
                                 </div>
                             </div>

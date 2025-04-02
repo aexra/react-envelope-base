@@ -40,6 +40,10 @@
     border-radius: 5px;
     padding: 10px;
 }
+.subsection h3 {
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
 
 .controlPanel.active {
     right: 319px;
@@ -171,4 +175,8 @@
     color: #f44336;
     font-weight: bold;
     text-decoration: underline;
+}
+
+.tasktable {
+    border: 1px solid var(--font-color);
 }
