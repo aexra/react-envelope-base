@@ -187,6 +187,11 @@
     margin-left: auto;
 }
 
+h4 {
+    display: flex;
+    gap: 10px;
+}
+
 @media (max-width: 1550px) {
     .controlPanel {
         right: -340px;

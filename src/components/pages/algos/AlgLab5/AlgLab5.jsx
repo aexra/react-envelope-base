@@ -5,6 +5,7 @@ import { PageBase } from '../../../../react-envelope/components/pages/base/PageB
 import { Close, Configure } from '../../../../react-envelope/components/dummies/Icons';
 import { Headline } from '../../../../react-envelope/components/ui/labels/Headline/Headline';
 import { Pair } from '../../../../react-envelope/components/layouts/Pair/Pair';
+import { StatusTag } from '../../../../react-envelope/components/ui/labels/StatusTag/StatusTag';
 
 const getRandomInt = (min, max) => {
     min = Math.ceil(min);
@@ -28,7 +29,7 @@ const Individual = ({ individual, index, processorRanges, tasks }) => {
 
     return (
         <div className={`${css.individual} ${individual.isBestCandidate ? css.bestCandidate : ''}`}>
-            <h4>Особь #{index + 1} (Макс: {maxPhenotype}) {individual.isBestCandidate && '← Лучшая'}</h4>
+            <h4>{`Особь #${index + 1}`}<accent>{maxPhenotype}</accent> {individual.isBestCandidate && <StatusTag className={'h-last'} type={'success'}>Лучшая</StatusTag>}</h4>
             <div className={css.genes}>
                 {individual.genes.map((gene, i) => {
                     const processorIndex = processorRanges.findIndex(range => gene >= range[0] && gene < range[1]);
