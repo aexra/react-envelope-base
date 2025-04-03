@@ -5,8 +5,7 @@
 ```bash
 git clone https://github.com/aexra/react-envelope-base.git
 cd react-envelope-base
-git submodule init
-git submodule update
+git submodule update --init
 npm i
 ```
 
