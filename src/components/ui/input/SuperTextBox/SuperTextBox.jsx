@@ -24,6 +24,7 @@ function calculateTypingSpeed(intervals, pauseThreshold = 3000) {
 export const SuperTextBox = ({
     hint,
     placeholder,
+    value,
     setValue,
     className,
     inputClassName,
@@ -35,14 +36,14 @@ export const SuperTextBox = ({
     ...props
 }) => {
     const { time, start, stop, formatted, isRunning } = useStopwatch();
-    const [text, setText] = useState('');
+    // const [text, setText] = useState('');
     const [intervals, setIntervals] = useState([]);
     const [lastStop, setLastStop] = useState(0);
 
     const speed = useMemo(() => calculateTypingSpeed(intervals), [intervals]);
 
     const handleTextChange = useCallback((e) => {
-        setText(e);
+        // setText(e);
         if (setValue) setValue(e);
 
         const now = Date.now();
@@ -63,7 +64,7 @@ export const SuperTextBox = ({
     return (
         <VBoxPanel className={`${className}`} {...props}>
             <ExTextBox 
-                text={text}
+                text={value}
                 textChanged={handleTextChange}
                 hint={hint}
                 placeholder={placeholder}
