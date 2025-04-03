@@ -12,11 +12,12 @@ export const login = async (login: string, password: string) => {
 
 export const register = async (auth: { login: string, password: string }, user: User) => {
     const response = await api.post(`/identity/account/register`, {
+        username: auth.login,
+        email: user.email, 
+        password: auth.password,
         firstname: user.firstname, 
         lastname: user.lastname, 
         middlename: user.middlename, 
-        email: auth.login, 
-        password: auth.password
     });
     return response;
 };
