@@ -1,7 +1,7 @@
 .modal {
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: stretch;
     justify-content: center;
     width: 400px;
 
@@ -11,4 +11,7 @@
     background-color: var(--body-bk-color);
 
     margin-top: 20px;
+
+    padding: 20px;
+    box-sizing: border-box;
 }

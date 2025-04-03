@@ -73,7 +73,7 @@ export const Lab6 = () => {
 
             <div className={css.modal}>
                 {currentUser ? (
-                    <div style={{ padding: "20px", maxWidth: "600px", margin: "0 auto" }}>
+                    <div>
                         <h2>Добро пожаловать, {currentUser.name}!</h2>
                         <p>Ваш средний интервал: {currentUser.interval} мс</p>
                         <p>Текущий интервал: {currentInterval} мс</p>
@@ -87,7 +87,7 @@ export const Lab6 = () => {
                         </ExButton>
                     </div>
                 ) : (
-                    <div style={{ padding: "20px", maxWidth: "600px", margin: "0 auto" }}>
+                    <div>
                         <h2>{isRegisterMode ? "Регистрация" : "Вход"}</h2>
 
                         <div style={{ marginBottom: "15px" }}>
@@ -116,7 +116,7 @@ export const Lab6 = () => {
                             <ExButton
                                 onClick={handleAuthAction}
                                 primary
-                                className={'accent-button'}
+                                className={'accent-button flex-1'}
                             >
                                 {isRegisterMode ? "Зарегистрироваться" : "Войти"}
                             </ExButton>
