@@ -71,11 +71,13 @@ export const Router = () => {
 
                 <Route path="/user">
                     <Route path="auth" element={<AuthPage/>}/>
+
+                    <Route element={<PrivateRoute/>}>
+                        <Route path="settings" element={<UserSettingsPage/>}/>
+                    </Route>
                 </Route>
 
-                <Route path="/profile" element={<PrivateRoute/>}>
-                    <Route path="settings" element={<UserSettingsPage/>}/>
-                </Route>
+                <Route path="/profile/:tag" element={'User profile'}/>
 
                 <Route path="/lab">
                     <Route path="5" element={<Lab5/>}/>
