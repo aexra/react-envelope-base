@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import BasePage from '../../../react-envelope/components/pages/BasePage/BasePage';
 import DSTUNavSidebar from '../../../react-envelope/components/widgets/DSTUNavSidebar/DSTUNavSidebar';
 import { BP } from '../../dummies/BP/BP';
 import { CringeList } from '../../widgets/CringeList/CringeList';
@@ -9,6 +8,7 @@ import { HeaderTitle } from '../../../react-envelope/components/dummies/styleles
 import { ExperimentOutlined } from '../../../react-envelope/components/dummies/Icons';
 import { NavSidebarButton } from '../../../react-envelope/components/ui/buttons/NavSidebarButton/NavSidebarButton';
 import DSTUFooter from '../../../react-envelope/components/widgets/DSTUFooter/DSTUFooter';
+import { PageBase } from '../../../react-envelope/components/pages/base/PageBase/PageBase';
 
 export const Lab5 = () => {
     const [bps, setbps] = useState([]);
@@ -42,16 +42,13 @@ export const Lab5 = () => {
     };
     
     return (
-        <BasePage headerContent={<HeaderTitle text='Лабораторная работа №5' icon={<ExperimentOutlined/>}/>}
-                  footerContent={<DSTUFooter/>}
-                  navSidebar={<DSTUNavSidebar/>}
-                  bodyClassName={`h-full`}>
+        <PageBase>
             <BP mark='aaa' name='bbb' power='228' sata='5' pci='1430'/>
             <CringeList onAddRequested={handleAdd}
                         onDeleteRequested={handleDelete}
                         onClearRequested={handleClear}
                         options={bps.map((b, i) => <BP key={i} mark={b.mark} name={b.name} power={b.power} sata={b.sata} pci={b.pci}/>)}/>
             <TodoList/>
-        </BasePage>
+        </PageBase>
     );
 };

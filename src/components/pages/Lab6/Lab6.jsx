@@ -1,14 +1,10 @@
 import { useEffect, useState } from 'react';
-import BasePage from '../../../react-envelope/components/pages/BasePage/BasePage';
 import { CringeList } from '../../widgets/CringeList/CringeList';
 import css from './Lab6.module.css';
 import { BP } from '../../dummies/BP/BP';
-import DSTUNavSidebar from '../../../react-envelope/components/widgets/DSTUNavSidebar/DSTUNavSidebar';
-import DSTUFooter from '../../../react-envelope/components/widgets/DSTUFooter/DSTUFooter';
-import { HeaderTitle } from '../../../react-envelope/components/dummies/styleless/HeaderTitle';
-import { ExperimentOutlined } from '../../../react-envelope/components/dummies/Icons';
 import { EditModal } from '../../../react-envelope/components/widgets/modals/EditModal/EditModal';
 import toast from 'react-hot-toast';
+import { PageBase } from '../../../react-envelope/components/pages/base/PageBase/PageBase';
 
 export const Lab6 = () => {
     const [bps, setbps] = useState([]);
@@ -141,10 +137,7 @@ export const Lab6 = () => {
     };
     
     return (
-        <BasePage headerContent={<HeaderTitle text='Лабораторная работа №5' icon={<ExperimentOutlined/>}/>}
-                  footerContent={<DSTUFooter/>}
-                  navSidebar={<DSTUNavSidebar/>}
-                  bodyClassName={`h-full`}>
+        <PageBase>
             <CringeList onAddRequested={handleAdd}
                         onEditRequested={handleEdit}
                         onDeleteRequested={handleDelete}
@@ -188,6 +181,6 @@ export const Lab6 = () => {
                     </div>
                 </div>
             )}
-        </BasePage>
+        </PageBase>
     );
 };
