@@ -11,6 +11,7 @@ import { ThemeProvider } from './react-envelope/contexts/ThemeContext';
 import { NavigationProvider } from './react-envelope/contexts/NavigationContext';
 import { SyntaxHighlighterProvider } from './react-envelope/contexts/SyntaxHighlighterContext';
 import { ImageAuthProvider } from './contexts/ImageAuthContext';
+import { BiometryAuthProvider } from './contexts/BiometryAuthContext';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -21,7 +22,9 @@ root.render(
           <AccountsProvider>
             <NavigationProvider>
               <ImageAuthProvider>
-                <App/>
+                <BiometryAuthProvider>
+                  <App />
+                </BiometryAuthProvider>
               </ImageAuthProvider>
             </NavigationProvider>
           </AccountsProvider>

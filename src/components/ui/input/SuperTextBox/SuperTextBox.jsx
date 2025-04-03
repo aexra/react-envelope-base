@@ -1,4 +1,4 @@
-import { useState, useMemo, useCallback } from 'react';
+import { useState, useMemo, useCallback, useEffect } from 'react';
 import VBoxPanel from '../../../../react-envelope/components/layouts/VBoxPanel/VBoxPanel';
 import ExTextBox from '../../../../react-envelope/components/ui/input/text/ExTextBox/ExTextBox';
 import css from './SuperTextBox.module.css';
@@ -31,6 +31,7 @@ export const SuperTextBox = ({
     details = false,
     limit = null,
     strictLimit = false,
+    onSpeedChange,
     ...props
 }) => {
     const { time, start, stop, formatted, isRunning } = useStopwatch();
@@ -38,7 +39,6 @@ export const SuperTextBox = ({
     const [intervals, setIntervals] = useState([]);
     const [lastStop, setLastStop] = useState(0);
 
-    // Мемоизируем расчет скорости
     const speed = useMemo(() => calculateTypingSpeed(intervals), [intervals]);
 
     const handleTextChange = useCallback((e) => {
@@ -55,6 +55,10 @@ export const SuperTextBox = ({
             setIntervals(prev => [...prev, interval]);
         }
     }, [isRunning, lastStop, setValue, start]);
+
+    useEffect(() => {
+        if (onSpeedChange) onSpeedChange(speed);
+    }, [speed]);
 
     return (
         <VBoxPanel className={`${className}`} {...props}>
