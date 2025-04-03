@@ -11,6 +11,7 @@ import { Code, ExperimentOutlined, Package, Pizza } from "../../react-envelope/c
 import { DocsPage } from "../../react-envelope/components/pages/development/DocsPage/DocsPage";
 import { ScrollRestoration } from "../../react-envelope/utils/ScrollRestoration";
 import { AuthPage } from "../pages/user/AuthPage/AuthPage";
+import { Lab8 } from "../pages/Lab8/Lab8";
 
 export const Router = () => {
     const { routes, add } = useNavigation();
@@ -37,6 +38,12 @@ export const Router = () => {
         }, {
             name: 'Лабораторная работа №6',
             to: '/lab/6',
+            props: {
+                icon: <ExperimentOutlined/>,
+            }
+        }, {
+            name: 'Лабораторная работа №8',
+            to: '/lab/8',
             props: {
                 icon: <ExperimentOutlined/>,
             }
@@ -73,6 +80,7 @@ export const Router = () => {
                 <Route path="/lab">
                     <Route path="5" element={<Lab5/>}/>
                     <Route path="6" element={<Lab6/>}/>
+                    <Route path="8" element={<Lab8/>}/>
                 </Route>
             </Routes>
         </BrowserRouter>
