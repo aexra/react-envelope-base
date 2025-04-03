@@ -1,13 +1,14 @@
 import { useState, useEffect } from 'react';
 import css from './ExCheckbox.module.css';
-import { CheckedIcon, CheckboxMinus, IndeterminateIcon } from '../../react-envelope/components/dummies/Icons';
+import { CheckedIcon, CheckboxMinus, IndeterminateIcon } from '../../dummies/Icons';
 
-function ExCheckbox({
+export const ExCheckbox = ({
     className,
     type = 'info',
     state = 'indeterminate',
+    statesCount = 2,
     onChange
-}) {
+}) => {
     const [checkboxState, setCheckboxState] = useState(state);
     const [isMounted, setIsMounted] = useState(false);
     const [isAnimating, setIsAnimating] = useState(false);
@@ -30,10 +31,16 @@ function ExCheckbox({
 
     const handleClick = () => {
         setIsAnimating(true);
-        const newState =
-            checkboxState === 'indeterminate' ? 'checked' :
-                checkboxState === 'checked' ? 'unchecked' :
-                    'indeterminate';
+
+        let newState;
+        if (statesCount === 3) {
+            newState =
+                checkboxState === 'indeterminate' ? 'checked' :
+                    checkboxState === 'checked' ? 'unchecked' :
+                        'indeterminate';
+        } else {
+            newState = checkboxState === 'indeterminate' ? 'checked' : 'indeterminate';
+        }
 
         setCheckboxState(newState);
         onChange && onChange(newState);
@@ -53,7 +60,7 @@ function ExCheckbox({
         >
             {checkboxState === 'checked' && <CheckedIcon {...iconProps} />}
             {checkboxState === 'indeterminate' && <IndeterminateIcon {...iconProps} />}
-            {checkboxState === 'unchecked' && <CheckboxMinus {...iconProps} />}
+            {checkboxState === 'unchecked' && statesCount === 3 && <CheckboxMinus {...iconProps} />}
         </div>
     );
 }
