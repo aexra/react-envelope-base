@@ -13,7 +13,7 @@ export const AuthPage = () => {
     const navigate = useNavigate();
     const location = useLocation();
     const [frame, setFrame] = useState(0);
-    const { auth, user, login, register} = useAuth();
+    const { auth, user, login, register } = useAuth();
     const [hasLoggedIn, setHasLoggedIn] = useState(false);
 
     const handleLogin = async (data) => {
@@ -42,10 +42,12 @@ export const AuthPage = () => {
                 login: data.login,
                 password: data.password
             }, {
+                email: data.email,
                 firstname: data.firstname,
                 lastname: data.lastname,
                 middlename: data.middlename
             });
+
 
             toast.success('Регистрация прошла успешно!\nВыполните вход...');
             setFrame(0);
@@ -59,25 +61,25 @@ export const AuthPage = () => {
     useEffect(() => {
         if (auth && user && hasLoggedIn) {
             toast.success(`Добро пожаловать, ${user.firstname}!`);
-            
+
             const from = location.state?.from || '/';
             navigate(from, { replace: true });
         }
     }, [auth, user, hasLoggedIn]);
 
     return (
-        <PageBase header={<IconHeader text={'Личный кабинет'} icon={<User/>}/>}
-                  less
-                  fullSize
-                  contentClassName={css.body}>
-                <div className={`${css.card}`}>
-                    <AuthCard className={'center-self'}
-                            onLogin={handleLogin}
-                            onRegister={handleRegister}
-                            selectedFrame={frame}
-                            onSelect={setFrame}/>
-                    <ExButton onClick={() => navigate('/')} gap="10px" className={`${css.home} r10`} leftIcon={<Home className='icon-m'/>}>На главную</ExButton>
-                </div>
+        <PageBase header={<IconHeader text={'Личный кабинет'} icon={<User />} />}
+            less
+            fullSize
+            contentClassName={css.body}>
+            <div className={`${css.card}`}>
+                <AuthCard className={'center-self'}
+                    onLogin={handleLogin}
+                    onRegister={handleRegister}
+                    selectedFrame={frame}
+                    onSelect={setFrame} />
+                <ExButton onClick={() => navigate('/')} gap="10px" className={`${css.home} r10`} leftIcon={<Home className='icon-m' />}>На главную</ExButton>
+            </div>
         </PageBase>
     );
 };

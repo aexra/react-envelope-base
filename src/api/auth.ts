@@ -4,7 +4,7 @@ import api from './config';
 
 export const login = async (login: string, password: string) => {
     const response = await api.post(`/identity/account/login`, {
-        email: login,
+        username: login,
         password: password
     });
     return response;
