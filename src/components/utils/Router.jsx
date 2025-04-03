@@ -7,7 +7,7 @@ import { Lab5 } from "../pages/Lab5/Lab5";
 import { Lab6 } from "../pages/Lab6/Lab6";
 import { useEffect } from "react";
 import { useNavigation } from "../../react-envelope/hooks/useNavigation";
-import { Code, Package, Pizza } from "../../react-envelope/components/dummies/Icons";
+import { Code, ExperimentOutlined, Package, Pizza } from "../../react-envelope/components/dummies/Icons";
 import { DocsPage } from "../../react-envelope/components/pages/development/DocsPage/DocsPage";
 import { ScrollRestoration } from "../../react-envelope/utils/ScrollRestoration";
 import { AuthPage } from "../pages/user/AuthPage/AuthPage";
@@ -27,6 +27,18 @@ export const Router = () => {
             to: '/_lab/old',
             props: {
                 icon: <Pizza/>
+            }
+        }, {
+            name: 'Лабораторная работа №5',
+            to: '/lab/5',
+            props: {
+                icon: <ExperimentOutlined/>,
+            }
+        }, {
+            name: 'Лабораторная работа №6',
+            to: '/lab/6',
+            props: {
+                icon: <ExperimentOutlined/>,
             }
         }, {
             name: 'Экспериментальная',
