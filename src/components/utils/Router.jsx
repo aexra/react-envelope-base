@@ -41,21 +41,21 @@ export const Router = () => {
         }, {
             name: 'Лабораторная работа №3',
             to: '/lab/3',
-            requireAuth: true,
+            // requireAuth: true,
             props: {
                 icon: <ExperimentOutlined/>
             }
         }, {
             name: 'Лабораторная работа №5',
             to: '/lab/4',
-            requireAuth: true,
+            // requireAuth: true,
             props: {
                 icon: <ExperimentOutlined/>
             }
         }, {
             name: 'Лабораторная работа №6',
             to: '/lab/6',
-            requireAuth: true,
+            // requireAuth: true,
             props: {
                 icon: <ExperimentOutlined/>
             }
@@ -73,7 +73,7 @@ export const Router = () => {
                     <Route path="exp" element={<DevExpPage/>}/>
                 </Route>
 
-                <Route path="/lab" element={<PrivateRoute/>}>
+                <Route path="/lab">
                     <Route path="3" element={<Lab3/>}/>
                     <Route path="4" element={<Lab4/>}/>
                     <Route path="6" element={<Lab6/>}/>

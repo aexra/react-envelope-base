@@ -32,6 +32,10 @@ export const Lab6 = () => {
     const [currentInterval, setCurrentInterval] = useState(0);
     const [isRegisterMode, setIsRegisterMode] = useState(false);
     const [isLocked, setIsLocked] = useState(false);
+    const [confirmed, setConfirmed] = useState(0);
+    const [intervals, setIntervals] = useState([]);
+
+    const REPEATS = 3;
 
     useEffect(() => {
         setCurrentInterval(0);
@@ -64,18 +68,38 @@ export const Lab6 = () => {
         } else {
             const result = login(name, phrase);
             if (result) {
-                if (Math.abs(result.interval - currentInterval) <= eps) {
+                if (result && confirmed < REPEATS - 1) {
+                    logout();
+                    setConfirmed(confirmed + 1);
+                    setIntervals([...intervals, currentInterval]);
+                    setPhrase('');
+                    return;
+                }
+
+                if (Math.abs(result.interval - intervals.reduce((sum, interval) => sum + interval, 0) / intervals.length) <= eps) {
                     toast.success("Вход выполнен!");
+                    
                 } else {
                     toast.error("Несоответствие биометрических параметров");
                     handleBadLogin();
                     logout();
                 }
+
+                setConfirmed(0);
+                setIntervals([]);
+                setCurrentInterval(0);
+                setPhrase('');
             } else {
                 toast.error("Неверные данные");
             }
         }
     };
+
+    useEffect(() => {
+        if (confirmed < REPEATS) {
+            toast.success(`Введите фразу еще ${REPEATS - confirmed} раз...`);
+        }
+    }, [confirmed]);
 
     useEffect(() => {
         if (attempts > 2 && lock == 0) {
@@ -114,9 +138,6 @@ export const Lab6 = () => {
                 {user ? (
                     <div>
                         <h2>Добро пожаловать, {user.name}!</h2>
-                        <p>Ваш средний интервал: {user.interval} мс</p>
-                        <p>Текущий интервал: {currentInterval} мс</p>
-                        <p>Разница: {Math.abs(user.interval - currentInterval)} мс</p>
 
                         <ExButton
                             onClick={logout}
