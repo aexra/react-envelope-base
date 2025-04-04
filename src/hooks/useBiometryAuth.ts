@@ -4,15 +4,19 @@ import { BiometryUser } from "../interfaces/BiometryUser";
 import { useObjectLocalStorage } from "../react-envelope/hooks/useObjectLocalStorage";
 
 export const useBiometryAuth = () => {
-    const { 
-        biometryUser, 
+    const {
+        biometryUser,
         biometryUsers,
-        isBiometryLoading, 
-        setBiometryUser, 
+        isBiometryLoading,
+        lockTimer: lock,
+        attempts,
+        setBiometryUser,
         setBiometryUsers,
-        resetBiometryAuth 
+        resetBiometryAuth,
+        setLockTimer,
+        setAttempts
     } = useContext(BiometryAuthContext);
-    
+
     const { getItem, setItem, removeItem } = useObjectLocalStorage();
     const STORAGE_KEY = "biometryUsers";
 
@@ -26,14 +30,14 @@ export const useBiometryAuth = () => {
     // Регистрация нового пользователя
     const register = (name: string, phrase: string, interval: number = 300): BiometryUser | null => {
         const users = loadUsers();
-        
+
         if (users.some((u: { name: string; }) => u.name === name)) {
             return null; // Пользователь уже существует
         }
 
         const newUser: BiometryUser = { name, phrase, interval };
         const updatedUsers = [...users, newUser];
-        
+
         setBiometryUsers(updatedUsers);
         setItem(STORAGE_KEY, updatedUsers);
         return newUser;
@@ -43,13 +47,13 @@ export const useBiometryAuth = () => {
     const login = (name: string, phrase: string): BiometryUser | null => {
         const users = loadUsers();
         const user = users.find((u: { name: string; phrase: string; }) => u.name === name && u.phrase === phrase);
-        
+
         if (user) {
             setBiometryUser(user);
             setItem('currentBiometryUser', user);
             return user;
         }
-        
+
         return null;
     };
 
@@ -63,10 +67,10 @@ export const useBiometryAuth = () => {
     const unregister = (name: string): void => {
         const users = loadUsers();
         const updatedUsers = users.filter((u: { name: string; }) => u.name !== name);
-        
+
         setBiometryUsers(updatedUsers);
         setItem(STORAGE_KEY, updatedUsers);
-        
+
         if (biometryUser?.name === name) {
             logout();
         }
@@ -75,29 +79,50 @@ export const useBiometryAuth = () => {
     // Обновление интервала для текущего пользователя
     const updateInterval = (interval: number): boolean => {
         if (!biometryUser) return false;
-        
+
         const updatedUser = { ...biometryUser, interval };
-        const users = loadUsers().map((u: { name: string; }) => 
+        const users = loadUsers().map((u: { name: string; }) =>
             u.name === biometryUser.name ? updatedUser : u
         );
-        
+
         setBiometryUser(updatedUser);
         setBiometryUsers(users);
         setItem(STORAGE_KEY, users);
         setItem('currentBiometryUser', updatedUser);
-        
+
         return true;
     };
 
+    const lockUser = (seconds: number) => {
+        setLockTimer(seconds);
+        setItem('lock', seconds);
+    };
+
+    const countAttempt = () => {
+        const v = attempts + 1;
+        setAttempts(v);
+        setItem('attempts', v);
+    };
+
+    const resetAttempts = () => {
+        setAttempts(0);
+        setItem('attempts', 0);
+    };
+
     return {
-        currentUser: biometryUser,
-        allUsers: biometryUsers,
+        user: biometryUser,
+        users: biometryUsers,
         isLoading: isBiometryLoading,
+        lock, 
+        attempts,
         register,
         login,
         logout,
         unregister,
         updateInterval,
-        loadUsers
+        loadUsers, 
+        lockUser, 
+        countAttempt, 
+        resetAttempts
     };
 };

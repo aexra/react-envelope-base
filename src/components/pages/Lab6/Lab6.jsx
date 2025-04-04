@@ -8,27 +8,40 @@ import ExButton from "../../../react-envelope/components/ui/buttons/ExButton/ExB
 import ExTextBox from "../../../react-envelope/components/ui/input/text/ExTextBox/ExTextBox";
 import { Headline } from "../../../react-envelope/components/ui/labels/Headline/Headline";
 import css from './a.module.css';
+import bonk from '../../../assets/bonk.png';
+import HBoxPanel from "../../../react-envelope/components/layouts/HBoxPanel/HBoxPanel";
 
 export const Lab6 = () => {
     const eps = 50;
     const {
-        currentUser,
+        user,
+        users,
+        isLoading,
+        lock,
+        attempts,
         register,
         login,
         logout,
-        isLoading
+        lockUser, 
+        countAttempt, 
+        resetAttempts,
     } = useBiometryAuth();
 
     const [name, setName] = useState("");
     const [phrase, setPhrase] = useState("");
     const [currentInterval, setCurrentInterval] = useState(0);
     const [isRegisterMode, setIsRegisterMode] = useState(false);
+    const [isLocked, setIsLocked] = useState(false);
 
     useEffect(() => {
         setCurrentInterval(0);
         setPhrase('');
         setName('');
     }, [isRegisterMode]);
+
+    const handleBadLogin = () => {
+        countAttempt();
+    };
 
     const handleSpeedChange = ({ avi }) => {
         setCurrentInterval(avi);
@@ -55,6 +68,7 @@ export const Lab6 = () => {
                     toast.success("Вход выполнен!");
                 } else {
                     toast.error("Несоответствие биометрических параметров");
+                    handleBadLogin();
                     logout();
                 }
             } else {
@@ -62,6 +76,23 @@ export const Lab6 = () => {
             }
         }
     };
+
+    useEffect(() => {
+        if (attempts > 2 && lock == 0) {
+            setIsLocked(true);
+            lockUser(10);
+            resetAttempts();
+        }
+    }, [attempts]);
+
+    useEffect(() => {
+        if (!lock || lock == 0) {
+            setIsLocked(false);
+        }
+        if (lock && lock > 0) {
+            setIsLocked(true);
+        }
+    }, [lock]);
 
     if (isLoading) {
         return <div>Загрузка...</div>;
@@ -72,12 +103,20 @@ export const Lab6 = () => {
             <Headline>Биометрическая аутентификация</Headline>
 
             <div className={css.modal}>
-                {currentUser ? (
+                {isLocked && <div className={`${css.lock} flex col center g10`}>
+                    <h1 className={css.title}>Ты в бане!</h1>
+                    <img src={bonk} className={css.bonk}/>
+                    <HBoxPanel gap={'10px'}>
+                        <h1 className={css.remainTitle}>Осталось: </h1>
+                        <h1 className={css.remainCounter}>{lock}</h1>
+                    </HBoxPanel>
+                </div>}
+                {user ? (
                     <div>
-                        <h2>Добро пожаловать, {currentUser.name}!</h2>
-                        <p>Ваш средний интервал: {currentUser.interval} мс</p>
+                        <h2>Добро пожаловать, {user.name}!</h2>
+                        <p>Ваш средний интервал: {user.interval} мс</p>
                         <p>Текущий интервал: {currentInterval} мс</p>
-                        <p>Разница: {Math.abs(currentUser.interval - currentInterval)} мс</p>
+                        <p>Разница: {Math.abs(user.interval - currentInterval)} мс</p>
 
                         <ExButton
                             onClick={logout}

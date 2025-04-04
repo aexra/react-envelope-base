@@ -14,4 +14,54 @@
 
     padding: 20px;
     box-sizing: border-box;
+
+    position: relative;
+}
+
+.lock {
+    position: absolute;
+
+    padding: 20px;
+
+    box-sizing: border-box;
+    
+    top: -25px;
+    left: 0;
+
+    width: 100%;
+    height: calc(100% + 25px);
+
+    background-color: rgba(0, 0, 0, 0.8);
+
+    border-radius: 10px;
+
+    z-index: 2000;
+}
+
+.bonk {
+    width: 60%;
+    user-select: none;
+    pointer-events: none;
+}
+
+.title {
+    color: var(--error-color);
+    background-color: rgba(0, 0, 0, 0.3);
+    width: 100%;
+    text-align: center;
+    padding: 5px 0;
+    user-select: none;
+    pointer-events: none;
+}
+
+.remainTitle {
+    color: var(--accent-font-color);
+    pointer-events: none;
+    pointer-events: none;
+}
+
+.remainCounter {
+    color: var(--error-color);
+    pointer-events: none;
+    pointer-events: none;
 }
